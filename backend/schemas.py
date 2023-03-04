@@ -84,3 +84,8 @@ class User2project(BaseModel):
 class Achievement(BaseModel):
     username: str
     number: int
+
+
+class Subscription(BaseModel):
+    user_email: str
+    skills: List[str]

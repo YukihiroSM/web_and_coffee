@@ -4,6 +4,7 @@ from fastapi.responses import JSONResponse
 
 import jwt_auth
 from schemas import ProjectItem, Achievement
+from services.subscription.trigger import send_notifications_on_event
 
 router = APIRouter(prefix="/api/project")
 
@@ -24,8 +25,20 @@ async def create_project(project_data: ProjectItem, request: Request):
     project_query["admin"] = user_query["username"]
     request.app.database.users.insert_one(project_query)
     collect_stats(user_query["username"], request)
-    project = request.app.database.users.find_one(project_query)
-    return JSONResponse({"id": str(project["_id"])}, status_code=200)
+    project = request.app.database.projects.insert_one(project_query)
+    trigger_events(project, request)
+    return JSONResponse({"id": str(project["_id"])}, status_code=201)
+
+
+def trigger_events(project: ProjectItem, request: Request):
+    skills = project['skills']
+    subscriptions = request.app.database.subscriptions.find_all()
+    emails = []
+    for subscription in subscriptions:
+        uni = skills.union(subscription["skills"])
+        if len(uni) > 0:
+            emails.append(subscription["user_email"])
+    send_notifications_on_event(project, emails)
 
 
 def collect_stats(username: str, request: Request):

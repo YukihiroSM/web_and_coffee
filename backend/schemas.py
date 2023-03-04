@@ -73,6 +73,3 @@ class User2project(BaseModel):
     user_id: str
     
 
-
-
-

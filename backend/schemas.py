@@ -78,7 +78,7 @@ class UserItem(BaseModel):
 
 class User2project(BaseModel):
     project_id: str
-    user_id: str
+    username: str
 
 
 class Achievement(BaseModel):

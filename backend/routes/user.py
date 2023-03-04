@@ -1,15 +1,15 @@
 import hashlib
 import pickle
+from datetime import date
 
 from fastapi import APIRouter, Request
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
 import jwt_auth
-from schemas import AuthItem
+from schemas import AuthItem, UserItem, User2project
 
 router = APIRouter(prefix="/api/user")
-
 
 @router.post("/login")
 @router.options("/login")
@@ -43,8 +43,6 @@ async def register_user(register_data: AuthItem, request: Request):
 
     user_query["password"] = hashed_password
     user_query["token"] = encoded_jwt
-    user_query["ingredients"] = pickle.dumps([])
-    user_query["meals"] = pickle.dumps([])
 
     request.app.database.users.insert_one(user_query)
     user = request.app.database.users.find_one(user_query)
@@ -70,3 +68,35 @@ async def logout_user(request: Request):
 @router.post("/resume")
 async def create_user_resume():
     pass
+
+@router.post("/userinfo")
+async def add_userinfo(user_data: UserItem, request: Request):
+    authorization = jwt_auth.get_authorisation(request)
+    decoded_jwt = jwt_auth.decode_jwt(authorization)
+    auth_query = {"username": decoded_jwt["username"]}
+
+    user_query = jsonable_encoder(user_data)
+    user_query["username"]= auth_query["username"]
+    user_query['register_datetime'] = date.today()
+    
+    request.app.database.users.insert_one(user_query)
+    user = request.app.database.users.find_one(user_query)
+    return JSONResponse({"token": authorization, "id": str(user["_id"])}, status_code=200)
+
+
+@router.post("/${id}/projects")
+async def user_projects(user_data: UserItem, request: Request):
+    authorization = jwt_auth.get_authorisation(request)
+    decoded_jwt = jwt_auth.decode_jwt(authorization)
+    user_query = {"username": decoded_jwt["username"]}
+
+    result = []
+    user_query = jsonable_encoder(user_data)
+    us2pr = request.app.database.user2project.find_all(user_query)
+    for item in us2pr:
+        project_title = item.title
+        project_query = {"title":project_title }
+        project = request.app.database.projects.find_one(project_query) 
+        result.append(project)
+    user = request.app.database.users.find_one(user_query)
+    return JSONResponse({"token": authorization, "id": str(user["_id"])}, status_code=200)

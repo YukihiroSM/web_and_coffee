@@ -78,8 +78,9 @@ class UserItem(BaseModel):
 
 
 class User2project(BaseModel):
-    project_id: str
+    title: str
     username: str
+    approved: bool = False
 
 
 class Achievement(BaseModel):

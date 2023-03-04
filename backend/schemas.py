@@ -54,6 +54,7 @@ class FeedbackItem(BaseModel):
 
 
 class ProjectItem(BaseModel):
+    admin : str
     title: str
     requirements: List[str]
     feedback: FeedbackItem
@@ -77,5 +78,5 @@ class UserItem(BaseModel):
 class User2project(BaseModel):
     project_id: str
     user_id: str
-    
+
 

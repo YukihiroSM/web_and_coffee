@@ -67,6 +67,6 @@ async def logout_user(request: Request):
         return JSONResponse({"message": "User not authorised!"}, status_code=401)
 
 
-@router.post("/resume")
+@router.post("/resume_1")
 async def create_user_resume():
     pass

@@ -5,6 +5,7 @@ import { theme } from './theme';
 import { MainRouter } from './navigation';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
+import './index.css';
 
 const AppContainer = () => {
   return (

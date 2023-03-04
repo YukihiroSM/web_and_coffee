@@ -11,3 +11,152 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* main page slider */
+#main-slider-container {
+  width: 100vw !important;
+  height: 100vh;
+  margin: 0 !important;
+  overflow: hidden;
+}
+
+.main-slider-slide {
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 0 !important;
+  width: 100vw !important;
+  position: relative;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.swiper-button-next,
+.swiper-container-rtl .swiper-button-prev,
+.swiper-button-prev,
+.swiper-container-rtl .swiper-button-next {
+  color: #F0A04B !important;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #F0A04B !important;
+}
+
+/* scroll arrow hint */
+#section04 {
+  position: absolute;
+  bottom: 5em;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 10;
+  width: 100vw;
+  height: 4em;
+  cursor: pointer;
+}
+
+#section04 a {
+  padding-top: 60px;
+}
+
+#section04 a span {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  margin-left: -12px;
+  border-left: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-animation: sdb04 2s infinite;
+  animation: sdb04 2s infinite;
+  box-sizing: border-box;
+}
+
+@-webkit-keyframes sdb04 {
+  0% {
+    -webkit-transform: rotate(-45deg) translate(0, 0);
+  }
+
+  20% {
+    -webkit-transform: rotate(-45deg) translate(-10px, 10px);
+  }
+
+  40% {
+    -webkit-transform: rotate(-45deg) translate(0, 0);
+  }
+}
+
+@keyframes sdb04 {
+  0% {
+    transform: rotate(-45deg) translate(0, 0);
+  }
+
+  20% {
+    transform: rotate(-45deg) translate(-10px, 10px);
+  }
+
+  40% {
+    transform: rotate(-45deg) translate(0, 0);
+  }
+}
+
+/* slider popup */
+.slider-popup-container::before,
+.slider-popup-container::after {
+  content: '';
+  width: 100%;
+  height: 75px;
+  display: block;
+  box-sizing: border-box;
+}
+
+.slider-popup-container::before {
+  background: url('https://www.dominos.at/images/box-top.png') no-repeat bottom left;
+  background-size: contain;
+}
+
+.slider-popup-container::after {
+  background: url('https://www.dominos.at/images/box-bottom.png') no-repeat top left;
+  background-size: contain;
+}
+
+.slider-popup-container {
+  position: absolute;
+  max-width: 500px;
+  cursor: pointer;
+  left: 15%;
+  top: 15%;
+}
+
+.slider-popup {
+  background: url('https://www.dominos.at/images/box-middle.png') repeat top left;
+  padding: 20px 40px;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.popup-decoration {
+  background-image: url('https://www.dominos.at/images/decor_elem_left_red.svg'), url('https://www.dominos.at/images/decor_elem_right_red.svg');
+  background-position: -0.5% center, 100% center;
+  background-size: 30px;
+  background-repeat: no-repeat;
+  padding-inline: 10em;
+}
+
+/* multiple slider */
+#multiple-slider:hover {
+  overflow: visible;
+  transform: scale(1.05);
+  transition: all 0.3s ease-in-out;
+}

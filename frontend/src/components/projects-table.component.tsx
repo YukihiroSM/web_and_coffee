@@ -159,9 +159,13 @@ export const ProjectsTableComponent = ({
           {/* {projects.data.map((project) => ( */}
           {projectsTemplate.map((project) => (
             <Tr
+              transition={'all .5s ease'}
               key={project.id}
               cursor='pointer'
-              onClick={() => console.log(`Clicked on ${project.title}`)}
+              onClick={() => (window.location.href = `/project/${project.id}`)}
+              _hover={{
+                backgroundColor: 'gray.50',
+              }}
             >
               <Td>{project.title}</Td>
               <Td display={{ base: 'none', md: 'table-cell' }}>

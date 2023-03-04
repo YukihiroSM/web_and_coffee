@@ -41,10 +41,11 @@ export const Header = () => {
   const { pathname } = useLocation();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [huge, setHuge] = useState<boolean>(true);
+  const [huge, setHuge] = useState<boolean>(false);
 
   useEffect(() => {
     if (pathname === '/') {
+      setHuge(true);
       const handleScroll = (event: Event) => {
         setHuge(!window.scrollY);
       };
@@ -79,10 +80,7 @@ export const Header = () => {
           transition={'all .5s ease'}
           py={{ md: 2 }}
           px={{ md: 20 }}
-          borderBottom={1}
           align={'center'}
-          borderStyle={'solid'}
-          borderColor={'gray.200'}
           position={'relative'}
           justifyContent={'space-between'}
         >

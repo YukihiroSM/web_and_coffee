@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import Select from 'react-select';
 
 import * as Yup from 'yup';
 
@@ -16,13 +17,18 @@ import {
   Tabs,
   VStack,
   Link,
+  Stack,
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
 import { Loader } from './loader.component';
 import { Notification } from '../types';
 import { NotificationComponent } from './notification.component';
 import { useAuth } from '../hooks';
-import { ROUTER_KEYS } from '../constants';
+import {
+  REQUIREMENTS_OPTIONS,
+  ROUTER_KEYS,
+  POSITION_OPTIONS,
+} from '../constants';
 
 const registerSchema = Yup.object({
   username: Yup.string()
@@ -34,6 +40,18 @@ const registerSchema = Yup.object({
   confirmPassword: Yup.string()
     .required('Confirm your password')
     .oneOf([Yup.ref('password')], 'Passwords do not match'),
+  first_name: Yup.string()
+    .min(2, 'Name must contain at least 2 characters')
+    .required('Enter your First name'),
+  last_name: Yup.string()
+    .min(2, 'Surname must contain at least 2 characters')
+    .required('Enter your Last name'),
+  position: Yup.array()
+    .min(1, 'At least one position is required')
+    .required('Choose your positions'),
+  skills: Yup.array()
+    .min(1, 'At least one skill is required')
+    .required('Choose your skills'),
 });
 
 const loginSchema = Yup.object({
@@ -51,7 +69,11 @@ type Action = {
     | Yup.ObjectSchema<{
         username: string;
         password: string;
-        confirmPassword?: string;
+        confirmPassword: string;
+        first_name: string;
+        last_name: string;
+        position: string[];
+        skills: string[];
       }>
     | Yup.ObjectSchema<{
         username: string;
@@ -63,6 +85,10 @@ type Action = {
     username: string;
     password: string;
     confirmPassword?: string;
+    first_name?: string;
+    last_name?: string;
+    position?: string[];
+    skills?: string[];
   };
 };
 
@@ -84,6 +110,10 @@ export const UserFormPage = () => {
             username: '',
             password: '',
             confirmPassword: '',
+            first_name: '',
+            last_name: '',
+            position: [],
+            skills: [],
           },
         }
       : {
@@ -128,9 +158,10 @@ export const UserFormPage = () => {
         bg='light'
         align='center'
         justify='center'
-        h={action.type === 'register' ? '72vh' : '60vh'}
+        h={'full'}
+        p={5}
       >
-        <Box bg='white' p={6} rounded='md' w={'lg'} boxShadow={'md'}>
+        <Box bg='white' p={6} rounded='md' w={'3xl'} boxShadow={'md'}>
           <Tabs
             textStyle={'body2Semi'}
             defaultIndex={action.index}
@@ -179,11 +210,29 @@ export const UserFormPage = () => {
           <Formik
             validationSchema={action.schema}
             initialValues={action.initialValues}
-            onSubmit={({ username, password }) => {
-              action.mutation({ username, password });
+            onSubmit={({
+              username,
+              password,
+              first_name,
+              last_name,
+              position,
+              skills,
+            }) => {
+              action.mutation(
+                action.type === 'login'
+                  ? { username, password }
+                  : {
+                      username,
+                      password,
+                      first_name,
+                      last_name,
+                      position,
+                      skills,
+                    }
+              );
             }}
           >
-            {({ handleSubmit, errors, touched }) => (
+            {({ handleSubmit, errors, touched, setFieldValue }) => (
               <form onSubmit={handleSubmit}>
                 <VStack spacing={4} align='flex-start'>
                   <FormControl
@@ -199,40 +248,146 @@ export const UserFormPage = () => {
                     />
                     <FormErrorMessage>{errors.username}</FormErrorMessage>
                   </FormControl>
-                  <FormControl
-                    isInvalid={!!errors.password && touched.password}
-                  >
-                    <FormLabel htmlFor='password'>Password</FormLabel>
-                    <Field
-                      as={Input}
-                      id='password'
-                      name='password'
-                      type='password'
-                      variant='filled'
-                    />
-                    <FormErrorMessage>{errors.password}</FormErrorMessage>
-                  </FormControl>
+
                   {action.type === 'register' && (
+                    <>
+                      <Stack
+                        spacing={5}
+                        w={'full'}
+                        direction={'row'}
+                        alignItems={'space-between'}
+                      >
+                        <FormControl
+                          isInvalid={!!errors.first_name && touched.first_name}
+                        >
+                          <FormLabel htmlFor='first_name'>First name</FormLabel>
+                          <Field
+                            as={Input}
+                            id='first_name'
+                            name='first_name'
+                            type='text'
+                            variant='filled'
+                          />
+                          <FormErrorMessage>
+                            {errors.first_name}
+                          </FormErrorMessage>
+                        </FormControl>
+                        <FormControl
+                          isInvalid={!!errors.last_name && touched.last_name}
+                        >
+                          <FormLabel htmlFor='last_name'>Last name</FormLabel>
+                          <Field
+                            as={Input}
+                            id='last_name'
+                            name='last_name'
+                            type='password'
+                            variant='filled'
+                          />
+                          <FormErrorMessage>
+                            {errors.last_name}
+                          </FormErrorMessage>
+                        </FormControl>
+                      </Stack>
+                      <Field name='position'>
+                        {({ field }: any) => (
+                          <FormControl
+                            isInvalid={!!errors.position && !!touched.position}
+                          >
+                            <FormLabel htmlFor='position'>Positions</FormLabel>
+                            <Select
+                              options={POSITION_OPTIONS}
+                              isMulti
+                              closeMenuOnSelect={false}
+                              hideSelectedOptions={false}
+                              placeholder='Select position'
+                              onChange={(selectedOptions) =>
+                                setFieldValue(
+                                  'position',
+                                  selectedOptions
+                                    ? selectedOptions.map(
+                                        (option) => option.value
+                                      )
+                                    : []
+                                )
+                              }
+                            />
+                            <FormErrorMessage>
+                              {errors.position}
+                            </FormErrorMessage>
+                          </FormControl>
+                        )}
+                      </Field>
+                      <Field name='skills'>
+                        {({ field }: any) => (
+                          <FormControl
+                            isInvalid={!!errors.skills && !!touched.skills}
+                          >
+                            <FormLabel htmlFor='skills'>Skills</FormLabel>
+                            <Select
+                              options={REQUIREMENTS_OPTIONS}
+                              isMulti
+                              closeMenuOnSelect={false}
+                              hideSelectedOptions={false}
+                              placeholder='Select skills'
+                              onChange={(selectedOptions) =>
+                                setFieldValue(
+                                  'skills',
+                                  selectedOptions
+                                    ? selectedOptions.map(
+                                        (option) => option.value
+                                      )
+                                    : []
+                                )
+                              }
+                            />
+                            <FormErrorMessage>{errors.skills}</FormErrorMessage>
+                          </FormControl>
+                        )}
+                      </Field>
+                    </>
+                  )}
+                  <Stack
+                    spacing={5}
+                    w={'full'}
+                    direction={'row'}
+                    alignItems={'space-between'}
+                  >
                     <FormControl
-                      isInvalid={
-                        !!errors.confirmPassword && touched.confirmPassword
-                      }
+                      isInvalid={!!errors.password && touched.password}
                     >
-                      <FormLabel htmlFor='confirmPassword'>
-                        Confirm password
-                      </FormLabel>
+                      <FormLabel htmlFor='password'>Password</FormLabel>
                       <Field
                         as={Input}
-                        id='confirmPassword'
-                        name='confirmPassword'
+                        id='password'
+                        name='password'
                         type='password'
                         variant='filled'
                       />
-                      <FormErrorMessage>
-                        {errors.confirmPassword}
-                      </FormErrorMessage>
+                      <FormErrorMessage>{errors.password}</FormErrorMessage>
                     </FormControl>
-                  )}
+                    {action.type === 'register' && (
+                      <FormControl
+                        isInvalid={
+                          !!errors.confirmPassword && touched.confirmPassword
+                        }
+                      >
+                        <FormLabel htmlFor='confirmPassword'>
+                          Confirm password
+                        </FormLabel>
+                        <Field
+                          as={Input}
+                          id='confirmPassword'
+                          name='confirmPassword'
+                          type='password'
+                          variant='filled'
+                        />
+                        <FormErrorMessage>
+                          {errors.confirmPassword}
+                        </FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Stack>
+
                   <Button
                     isLoading={loading}
                     type='submit'

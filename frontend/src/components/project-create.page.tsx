@@ -19,7 +19,9 @@ import { NotificationComponent } from './notification.component';
 
 const validationSchema = Yup.object({
   title: Yup.string().required('Title is required'),
-  requirements: Yup.array().min(1, 'At least one requirement is required'),
+  requirements: Yup.array()
+    .min(1, 'At least one requirement is required')
+    .required('Requirements are required'),
   description: Yup.string().required('Description is required'),
   how_to_apply: Yup.string().required('How to apply is required'),
 });

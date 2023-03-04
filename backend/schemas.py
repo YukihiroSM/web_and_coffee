@@ -73,6 +73,7 @@ class UserItem(BaseModel):
     skills: List[str]
     portfolio: Portfolio
 
+
 class User2project(BaseModel):
     project_id: str
     user_id: str

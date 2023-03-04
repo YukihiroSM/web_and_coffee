@@ -1,12 +1,12 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/store';
-import { login, register } from '../features/auth/authSlice';
+import { login, register } from '../features/authSlice';
 import { User } from '../types';
 import { AppDispatch } from '../types';
 
 export const useAuth = () => {
   const dispatch: AppDispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.auth.user);
+  const success = useSelector((state: RootState) => state.auth.success);
   const loading = useSelector((state: RootState) => state.auth.loading);
   const error = useSelector((state: RootState) => state.auth.error);
 
@@ -18,5 +18,5 @@ export const useAuth = () => {
     dispatch(login(user));
   };
 
-  return { user, loading, error, handleRegister, handleLogin };
+  return { success, loading, error, handleRegister, handleLogin };
 };

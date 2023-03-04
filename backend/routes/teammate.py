@@ -8,21 +8,16 @@ from utils import compare_skills
 router = APIRouter(prefix="/api/team")
 
 
-# Note: it shouldn't be authorized request
-# it means not registered user could search teammates,
-# but only registered do some operations
+# FIXME (in the future) this method sucks
 @router.get('/')
-def find_team(skills: [str], request: Request):
-    # find in database users by the same skills
-    # workaround for now, get all users and check check skills
+def find_team(skills: List[str], request: Request):
     result = []
-    users: [UserItem] = request.app.database.users.find_all()
+    users = request.app.database.users.find_all()
     for user in users:
-        user_properties = ...  # (**user.dict())
-        proposed_skills: List[str] = user_properties['skills']
+        proposed_skills = user['skills']
         matches = compare_skills(skills, proposed_skills)
         if matches > 0:
-            result.append(tuple(matches, user))
+            result.append((matches, user))
 
     result.sort(reverse=True)
     return result

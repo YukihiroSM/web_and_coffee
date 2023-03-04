@@ -5,6 +5,8 @@ import pymongo.errors
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pymongo import MongoClient
+from routes import user
+from routes import invite
 
 ca = certifi.where()
 
@@ -14,6 +16,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 800
 
 app = FastAPI()
 app.include_router(user.router)
+app.include_router(invite.router)
 
 app.add_middleware(
     CORSMiddleware,
@@ -26,13 +29,24 @@ app.add_middleware(
 
 @app.on_event("startup")
 def startup_db_client():
-    if os.environ.get("ENVIRONMENT") == "development":
-        app.mongodb_client = MongoClient('mongodb://mongoadmin:bdung@127.0.0.1:27017')
-    else:
-        app.mongodb_client = MongoClient(
-            'mongodb+srv://cooking-db-admin:lh5zLcAz3HYIOwWD@cookingprocluster.jwyfoeq.mongodb.net/?retryWrites=true&w=majority',
-            tlsCAFile=ca
-        )
+    app.mongodb_client = MongoClient(
+        'mongodb+srv://cooking-db-admin:lh5zLcAz3HYIOwWD@cookingprocluster.jwyfoeq.mongodb.net/?retryWrites=true&w=majority',
+        tlsCAFile=ca
+    )
+    app.database = app.mongodb_client.pm_db
+    try:
+        app.database.create_collection("users")
+    except pymongo.errors.CollectionInvalid:
+        pass
+    try:
+        app.database.create_collection("projects")
+    except pymongo.errors.CollectionInvalid:
+        pass
+
+    try:
+        app.database.create_collection("achievements")
+    except pymongo.errors.CollectionInvalid:
+        pass
 
 
 @app.on_event("shutdown")

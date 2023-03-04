@@ -1,8 +1,6 @@
 import hashlib
 import pickle
 
-import requests
-from bson.objectid import ObjectId
 from fastapi import APIRouter, Request
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
@@ -44,9 +42,6 @@ async def register_user(register_data: AuthItem, request: Request):
     encoded_jwt = jwt_auth.get_encoded_jwt(user_query)
 
     user_query["password"] = hashed_password
-    user_query["token"] = encoded_jwt
-    user_query["ingredients"] = pickle.dumps([])
-    user_query["meals"] = pickle.dumps([])
 
     request.app.database.users.insert_one(user_query)
     user = request.app.database.users.find_one(user_query)
@@ -68,3 +63,7 @@ async def logout_user(request: Request):
     else:
         return JSONResponse({"message": "User not authorised!"}, status_code=401)
 
+
+@router.post("/resume")
+async def create_user_resume():
+    pass

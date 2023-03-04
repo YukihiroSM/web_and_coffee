@@ -1,0 +1,26 @@
+version: '3.3'
+services:
+    backend_app:
+      build:
+        context: ./
+        dockerfile: ./backend/Dockerfile
+      ports:
+        - '8000:8000'
+      restart: always
+      environment:
+        - SECRET_KEY=dummy_secret
+      networks:
+        - backend
+
+    frontend_app:
+      build: ./frontend
+      ports:
+        - '80:80'
+      restart: always
+      depends_on:
+        - backend_app
+      networks:
+        - backend
+networks:
+  backend:
+    driver: bridge

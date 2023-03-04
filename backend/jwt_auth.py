@@ -1,6 +1,7 @@
 import hashlib
-from typing import Dict
 import os
+from typing import Dict
+
 import jwt
 
 SECRET_KEY = os.environ.get("SECRET_KEY")

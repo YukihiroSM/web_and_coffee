@@ -1,12 +1,11 @@
-import os
-
 import certifi
 import pymongo.errors
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pymongo import MongoClient
-from routes import user
+
 from routes import invite
+from routes import user
 
 ca = certifi.where()
 

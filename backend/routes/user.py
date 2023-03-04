@@ -42,10 +42,7 @@ async def register_user(register_data: AuthItem, request: Request):
     encoded_jwt = jwt_auth.get_encoded_jwt(user_query)
 
     user_query["password"] = hashed_password
-<<<<<<< HEAD
-=======
     user_query["token"] = encoded_jwt
->>>>>>> a45bfd2 (add userinfo, user projects, change status)
 
     request.app.database.users.insert_one(user_query)
     user = request.app.database.users.find_one(user_query)
@@ -71,6 +68,20 @@ async def logout_user(request: Request):
 @router.post("/resume")
 async def create_user_resume():
     pass
+
+@router.get("/open_to_work")
+def get_users_to_hire(request: Request):
+    authorization = jwt_auth.get_authorisation(request)
+    if authorization:
+        try:
+            user_query = {"status": "true"}  # FIXME can be another value
+            users = request.app.database.users.find_all(user_query)
+            return {"users": users}
+        except Exception:
+            return JSONResponse({"message": "Logout failed"}, status_code=500)
+    else:
+        return JSONResponse({"message": "User not authorised!"}, status_code=401)
+
 
 @router.post("/userinfo")
 async def add_userinfo(user_data: UserItem, request: Request):

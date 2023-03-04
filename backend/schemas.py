@@ -33,20 +33,25 @@ class ResumeItem(BaseModel):
     education: List[EducationItem]
     contact: str
 
+
 class AchievementItem(BaseModel):
     title: str
+
 
 class PortfolioItem(BaseModel):
     description: str
     link: str
 
+
 class Portfolio(BaseModel):
 	items: List[PortfolioItem]
 	show: bool = False
-        
+
+
 class FeedbackItem(BaseModel):
     score: int
     comment: Optional[str]
+
 
 class ProjectItem(BaseModel):
     title: str

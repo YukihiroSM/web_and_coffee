@@ -32,6 +32,19 @@ def startup_db_client():
         tlsCAFile=ca
     )
     app.database = app.mongodb_client.pm_db
+    try:
+        app.database.create_collection("users")
+    except pymongo.errors.CollectionInvalid:
+        pass
+    try:
+        app.database.create_collection("projects")
+    except pymongo.errors.CollectionInvalid:
+        pass
+
+    try:
+        app.database.create_collection("achievements")
+    except pymongo.errors.CollectionInvalid:
+        pass
 
 
 @app.on_event("shutdown")

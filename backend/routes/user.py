@@ -1,8 +1,6 @@
 import hashlib
 import pickle
 
-import requests
-from bson.objectid import ObjectId
 from fastapi import APIRouter, Request
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse

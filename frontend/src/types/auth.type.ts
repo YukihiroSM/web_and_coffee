@@ -1,11 +1,12 @@
 export interface User {
   username: string;
   password: string;
-  token: string;
+  first_name?: string;
+  last_name?: string;
+  position?: string[];
+  skills?: string[];
 }
 
 export interface LocalStorageUser {
   token: string | undefined;
 }
-
-

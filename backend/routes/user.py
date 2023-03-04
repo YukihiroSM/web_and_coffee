@@ -114,4 +114,8 @@ async def user_projects(user_data: UserItem, request: Request):
         project = request.app.database.projects.find_one(project_query) 
         result.append(project)
     user = request.app.database.users.find_one(user_query)
-    return JSONResponse({"token": authorization, "id": str(user["_id"])}, status_code=200)
+
+    resp = {"projects": result,
+            "token": authorization, 
+            "id": str(user["_id"])}
+    return JSONResponse(resp, status_code=200)

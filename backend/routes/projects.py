@@ -68,8 +68,25 @@ async def delete_project(project_data: ProjectItem, request: Request):
     project = request.app.database.users.find_one(project_query)
     return JSONResponse({"id": str(project["_id"])}, status_code=200)
 
+@router.post("/${project_id}")
+async def get_project_info(project_data: ProjectItem, request: Request):
+    project_query = jsonable_encoder(project_data)
+    pr2us = request.app.database.user2project.find_one(project_query["title"])
+
+    members = []
+    for item in pr2us:
+        if item.approved:
+            user_query = {"username": item.username}
+            user = request.app.database.users.find_one(user_query) 
+            members.append(user)
+        
+    resp = {"members": members,
+            "project": project_query["title"]}
+    return JSONResponse(resp, status_code=200)
+
+
 @router.get("/get_projects")
-async def filter_meals(request: Request,
+async def show_projects(request: Request,
                        page: int = 0, perPage: int = 12):
 
     data = request.app.database.projects.find_all()
@@ -103,7 +120,6 @@ async def change_status(status: str, project_data: ProjectItem, request: Request
 async def apply_to_project(project_data: ProjectItem, request: Request):
     authorization = jwt_auth.get_authorisation(request)
     decoded_jwt = jwt_auth.decode_jwt(authorization)
-    # user_query = {"username": decoded_jwt["username"]}
     project_query = jsonable_encoder(project_data)
 
     proj_and_user_query = {"username": decoded_jwt["username"], "title": project_query["title"], "approved":False}

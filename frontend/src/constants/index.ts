@@ -7,6 +7,7 @@ const BACKEND_KEYS = {
 };
 
 const ROUTER_KEYS = {
+  LANDING: '/',
   USER_LOGIN: '/user/login',
   USER_REGISTER: '/user/register',
   USER_RESUMEE: '/user/resumee',
@@ -72,4 +73,51 @@ const REQUIREMENTS_OPTIONS = [
   { value: 'design', label: 'Design' },
 ];
 
-export { BACKEND_KEYS, ROUTER_KEYS, TEAM, NAV_LINKS, REQUIREMENTS_OPTIONS };
+const POSITION_OPTIONS = [
+  { value: 'web-dev', label: 'Web Dev' },
+  { value: 'typescript-dev', label: 'TypeScript Developer' },
+  { value: 'se', label: 'Softfare Engineer' },
+  { value: 'ml-dev', label: 'ML Developer' },
+  { value: 'ai-research', label: 'AI Researcher' },
+  { value: 'qa-eng', label: 'QA Engineer' },
+  { value: 'java-dev', label: 'Java Developer' },
+  { value: 'javascript-dev', label: 'Java Script Developer' },
+  { value: 'c_plus_plus-intern', label: 'C++ Intern' },
+  { value: 'python-back', label: 'Python Backend' },
+  { value: 'c-emb', label: 'C-Embedded Systems' },
+  { value: 'go-dev', label: 'Golang Developer' },
+  { value: 'deep-learning-middle', label: 'Deep Learning Middle Engineer' },
+  { value: 'cv-researcher', label: 'Computer Vision Researcher' },
+  { value: 'design', label: 'UI/UX Designer' },
+];
+
+const LANDING = [
+  {
+    title: 'Our Goal',
+    href: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
+    description:
+      'Our website is a wonderful opportunity for people to communicate, cooperate and engage.',
+  },
+  {
+    title: 'What to do?',
+    href: 'https://images.unsplash.com/photo-1557426272-fc759fdf7a8d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
+    description:
+      'Register your account and add some personal details. Then immediately start exploring.',
+  },
+  {
+    title: 'Is it free?',
+    href: 'https://images.unsplash.com/photo-1568992687947-868a62a9f521?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80',
+    description:
+      'Our platform is free of charge. The only requirement is to be polite and do your best.',
+  },
+];
+
+export {
+  BACKEND_KEYS,
+  ROUTER_KEYS,
+  TEAM,
+  NAV_LINKS,
+  REQUIREMENTS_OPTIONS,
+  LANDING,
+  POSITION_OPTIONS,
+};

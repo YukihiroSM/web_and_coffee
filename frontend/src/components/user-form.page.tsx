@@ -24,7 +24,11 @@ import { Loader } from './loader.component';
 import { Notification } from '../types';
 import { NotificationComponent } from './notification.component';
 import { useAuth } from '../hooks';
-import { REQUIREMENTS_OPTIONS, ROUTER_KEYS } from '../constants';
+import {
+  REQUIREMENTS_OPTIONS,
+  ROUTER_KEYS,
+  POSITION_OPTIONS,
+} from '../constants';
 
 const registerSchema = Yup.object({
   username: Yup.string()
@@ -157,7 +161,7 @@ export const UserFormPage = () => {
         h={'full'}
         p={5}
       >
-        <Box bg='white' p={6} rounded='md' w={'lg'} boxShadow={'md'}>
+        <Box bg='white' p={6} rounded='md' w={'3xl'} boxShadow={'md'}>
           <Tabs
             textStyle={'body2Semi'}
             defaultIndex={action.index}
@@ -217,7 +221,14 @@ export const UserFormPage = () => {
               action.mutation(
                 action.type === 'login'
                   ? { username, password }
-                  : { username, password, first_name, last_name, position, skills }
+                  : {
+                      username,
+                      password,
+                      first_name,
+                      last_name,
+                      position,
+                      skills,
+                    }
               );
             }}
           >
@@ -241,6 +252,7 @@ export const UserFormPage = () => {
                   {action.type === 'register' && (
                     <>
                       <Stack
+                        spacing={5}
                         w={'full'}
                         direction={'row'}
                         alignItems={'space-between'}
@@ -283,7 +295,7 @@ export const UserFormPage = () => {
                           >
                             <FormLabel htmlFor='position'>Positions</FormLabel>
                             <Select
-                              options={REQUIREMENTS_OPTIONS}
+                              options={POSITION_OPTIONS}
                               isMulti
                               closeMenuOnSelect={false}
                               hideSelectedOptions={false}
@@ -332,6 +344,28 @@ export const UserFormPage = () => {
                           </FormControl>
                         )}
                       </Field>
+                    </>
+                  )}
+                  <Stack
+                    spacing={5}
+                    w={'full'}
+                    direction={'row'}
+                    alignItems={'space-between'}
+                  >
+                    <FormControl
+                      isInvalid={!!errors.password && touched.password}
+                    >
+                      <FormLabel htmlFor='password'>Password</FormLabel>
+                      <Field
+                        as={Input}
+                        id='password'
+                        name='password'
+                        type='password'
+                        variant='filled'
+                      />
+                      <FormErrorMessage>{errors.password}</FormErrorMessage>
+                    </FormControl>
+                    {action.type === 'register' && (
                       <FormControl
                         isInvalid={
                           !!errors.confirmPassword && touched.confirmPassword
@@ -351,21 +385,9 @@ export const UserFormPage = () => {
                           {errors.confirmPassword}
                         </FormErrorMessage>
                       </FormControl>
-                    </>
-                  )}
-                  <FormControl
-                    isInvalid={!!errors.password && touched.password}
-                  >
-                    <FormLabel htmlFor='password'>Password</FormLabel>
-                    <Field
-                      as={Input}
-                      id='password'
-                      name='password'
-                      type='password'
-                      variant='filled'
-                    />
-                    <FormErrorMessage>{errors.password}</FormErrorMessage>
-                  </FormControl>
+                    )}
+                  </Stack>
+
                   <Button
                     isLoading={loading}
                     type='submit'

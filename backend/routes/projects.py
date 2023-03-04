@@ -7,8 +7,7 @@ import jwt_auth
 
 router = APIRouter(prefix="/api/project")
 
-@router.post("/create")
-@router.options("/create")
+@router.post("/")
 async def create_project(project_data: ProjectItem, request: Request):
     authorization = jwt_auth.get_authorisation(request)
     decoded_jwt = jwt_auth.decode_jwt(authorization)
@@ -26,9 +25,7 @@ async def create_project(project_data: ProjectItem, request: Request):
     project = request.app.database.users.find_one(project_query)
     return JSONResponse({"id": str(project["_id"])},status_code=200)
 
-@router.post("/[project_id]/delete")
-@router.options("/delete")
-
+@router.post("/{project_id}")
 async def delete_project(project_data: ProjectItem, request: Request):
     authorization = jwt_auth.get_authorisation(request)
     decoded_jwt = jwt_auth.decode_jwt(authorization)

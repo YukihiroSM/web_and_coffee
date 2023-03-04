@@ -3,6 +3,7 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
 import jwt_auth
+from typing import Union
 from schemas import ProjectItem, Achievement
 from services.subscription.trigger import send_notifications_on_event
 
@@ -67,6 +68,20 @@ async def delete_project(project_data: ProjectItem, request: Request):
     project = request.app.database.users.find_one(project_query)
     return JSONResponse({"id": str(project["_id"])}, status_code=200)
 
+@router.get("/get_projects")
+async def filter_meals(request: Request,
+                       page: int = 0, perPage: int = 12):
+
+    data = request.app.database.projects.find_all()
+    data_to_process = data[page * perPage: (page + 1) * perPage]
+
+    resp = {
+        "data": data_to_process,
+        "metadata": {"total": len(data)}
+    }
+    return JSONResponse(resp, status_code=200)
+
+
 @router.patch("/${project_id}")
 async def change_status(status: str, project_data: ProjectItem, request: Request):
     authorization = jwt_auth.get_authorisation(request)
@@ -82,6 +97,7 @@ async def change_status(status: str, project_data: ProjectItem, request: Request
     request.app.database.users.insert_one(project_query)
     project = request.app.database.projects.find_one(project_query)
     return JSONResponse({"token": decoded_jwt, "id": str(project["_id"])},status_code=200)
+
 
 
 

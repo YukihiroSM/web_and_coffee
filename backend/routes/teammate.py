@@ -26,4 +26,3 @@ def find_team(skills: [str], request: Request):
 
     result.sort(reverse=True)
     return result
-

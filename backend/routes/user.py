@@ -1,5 +1,4 @@
 import hashlib
-import pickle
 
 from fastapi import APIRouter, Request
 from fastapi.encoders import jsonable_encoder
@@ -67,3 +66,17 @@ async def logout_user(request: Request):
 @router.post("/resume")
 async def create_user_resume():
     pass
+
+
+@router.get("/open_to_work")
+def get_users_to_hire(request: Request):
+    authorization = jwt_auth.get_authorisation(request)
+    if authorization:
+        try:
+            user_query = {"status": "true"}  # FIXME can be another value
+            users = request.app.database.users.find_all(user_query)
+            return {"users": users}
+        except Exception:
+            return JSONResponse({"message": "Logout failed"}, status_code=500)
+    else:
+        return JSONResponse({"message": "User not authorised!"}, status_code=401)

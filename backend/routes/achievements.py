@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 
-
 import jwt_auth
 
 router = APIRouter(prefix='/api/achievement')

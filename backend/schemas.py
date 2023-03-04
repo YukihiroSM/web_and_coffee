@@ -1,5 +1,6 @@
-from typing import List, Union, Optional
 from datetime import date
+from typing import List, Optional
+
 from pydantic import BaseModel
 
 
@@ -44,8 +45,8 @@ class PortfolioItem(BaseModel):
 
 
 class Portfolio(BaseModel):
-	items: List[PortfolioItem]
-	show: bool = False
+    items: List[PortfolioItem]
+    show: bool = False
 
 
 class FeedbackItem(BaseModel):
@@ -54,7 +55,7 @@ class FeedbackItem(BaseModel):
 
 
 class ProjectItem(BaseModel):
-    admin : str
+    admin: str
     title: str
     requirements: List[str]
     feedback: FeedbackItem

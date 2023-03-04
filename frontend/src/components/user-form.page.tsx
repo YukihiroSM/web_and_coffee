@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import * as Yup from 'yup';
 
@@ -22,6 +22,7 @@ import { Loader } from './loader.component';
 import { Notification } from '../types';
 import { NotificationComponent } from './notification.component';
 import { useAuth } from '../hooks';
+import { ROUTER_KEYS } from '../constants';
 
 const registerSchema = Yup.object({
   username: Yup.string()
@@ -65,13 +66,12 @@ type Action = {
   };
 };
 
-export const UserFormComponent = () => {
+export const UserFormPage = () => {
   const [notification, setNotification] = useState<Notification | undefined>(
     undefined
   );
-  const navigate = useNavigate();
   const location = useLocation();
-  const { user, loading, error, handleRegister, handleLogin } = useAuth();
+  const { success, loading, error, handleRegister, handleLogin } = useAuth();
 
   const [action] = useState<Action>(
     location.pathname.includes('register')
@@ -99,7 +99,7 @@ export const UserFormComponent = () => {
   );
 
   useEffect(() => {
-    if (user) {
+    if (success) {
       setNotification({
         status: 'success',
         success:
@@ -108,7 +108,6 @@ export const UserFormComponent = () => {
             : 'Logged in successfully!',
       });
       window.location.href = '/';
-      navigate('/');
     }
     if (error) {
       setNotification({
@@ -117,7 +116,7 @@ export const UserFormComponent = () => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error, user]);
+  }, [error, success]);
 
   return (
     <>
@@ -141,7 +140,7 @@ export const UserFormComponent = () => {
             <TabList mb='1em'>
               <Tab
                 as={Link}
-                href={'/user/login'}
+                href={ROUTER_KEYS.USER_LOGIN}
                 _selected={{
                   bg: 'gray.50',
                   color: 'attention.dark',
@@ -159,7 +158,7 @@ export const UserFormComponent = () => {
               </Tab>
               <Tab
                 as={Link}
-                href={'/user/register'}
+                href={ROUTER_KEYS.USER_REGISTER}
                 _selected={{
                   bg: 'gray.50',
                   color: 'attention.dark',

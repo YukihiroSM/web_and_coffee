@@ -24,6 +24,7 @@ export default class HttpService {
   }
 
   private getFullApiUrl(url: string) {
+    console.log(process.env.REACT_APP_SERVER_URL);
     return `${this.baseUrl}/${this.apiVersion}/${url}`;
   }
 

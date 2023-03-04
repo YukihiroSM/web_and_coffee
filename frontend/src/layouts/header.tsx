@@ -32,10 +32,9 @@ import { useLocalStorage } from '../hooks';
 import { NAV_LINKS, ROUTER_KEYS } from '../constants';
 
 export const Header = () => {
-  const [{ id }, setLocalStorageUser] = useLocalStorage<LocalStorageUser>(
+  const [{ token }, setLocalStorageUser] = useLocalStorage<LocalStorageUser>(
     'project-me-user',
     {
-      id: undefined,
       token: undefined,
     }
   );
@@ -79,7 +78,7 @@ export const Header = () => {
           color={'white'}
           transition={'all .5s ease'}
           py={{ md: 2 }}
-          px={{ md: 4 }}
+          px={{ md: 20 }}
           borderBottom={1}
           align={'center'}
           borderStyle={'solid'}
@@ -101,8 +100,8 @@ export const Header = () => {
                 as={Link}
                 href={
                   link.label === 'All Projects'
-                    ? ROUTER_KEYS.PROJECTS + '?page=0&perPage=10'
-                    : `/user/${id}/project/create`
+                    ? ROUTER_KEYS.PROJECT_ALL + '?page=0&perPage=10'
+                    : ROUTER_KEYS.PROJECT_CREATE
                 }
                 p={2}
                 fontSize={{ sm: 'sm', md: huge ? 'md' : 'sm' }}
@@ -137,7 +136,7 @@ export const Header = () => {
             <User
               huge={huge}
               setLocalStorageUser={setLocalStorageUser}
-              id={id}
+              token={token}
             />
           </Box>
         </Flex>
@@ -151,8 +150,8 @@ export const Header = () => {
                   as={Link}
                   href={
                     link.label === 'All Projects'
-                      ? ROUTER_KEYS.PROJECTS + '?page=0&perPage=10'
-                      : `/user/${id}/project/create`
+                      ? ROUTER_KEYS.PROJECT_ALL + '?page=0&perPage=10'
+                      : ROUTER_KEYS.PROJECT_CREATE
                   }
                   p={2}
                   fontSize={{ sm: 'sm', md: huge ? 'md' : 'sm' }}
@@ -180,16 +179,16 @@ export const Header = () => {
 
 type UserProps = {
   huge: boolean;
-  id: string | undefined;
+  token: string | undefined;
   setLocalStorageUser: any;
 };
 
-const User = ({ huge, id, setLocalStorageUser }: UserProps) => {
+const User = ({ huge, token, setLocalStorageUser }: UserProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
-      {id ? (
+      {token ? (
         <>
           <ModalLogOut
             isOpen={isOpen}
@@ -219,7 +218,7 @@ const User = ({ huge, id, setLocalStorageUser }: UserProps) => {
             >
               <MenuItem
                 as={Link}
-                href={`/user/${id}/projects?page=0&perPage=10`}
+                href={ROUTER_KEYS.USER_PROJECTS + '?page=0&perPage=10'}
                 _hover={{
                   textDecoration: 'none',
                   color: 'attention.light',
@@ -231,7 +230,7 @@ const User = ({ huge, id, setLocalStorageUser }: UserProps) => {
               </MenuItem>
               <MenuItem
                 as={Link}
-                href={`/user/${id}/resumee`}
+                href={ROUTER_KEYS.USER_RESUMEE}
                 _hover={{
                   textDecoration: 'none',
                   color: 'attention.light',
@@ -266,7 +265,7 @@ const User = ({ huge, id, setLocalStorageUser }: UserProps) => {
             fontSize={{ sm: 'sm', md: huge ? 'md' : 'sm' }}
             fontWeight={400}
             variant={'link'}
-            href={'/user/login'}
+            href={ROUTER_KEYS.USER_LOGIN}
             color={'white'}
           >
             Sign In
@@ -281,7 +280,7 @@ const User = ({ huge, id, setLocalStorageUser }: UserProps) => {
             color={'white'}
             bg={'attention.dark'}
             as='a'
-            href={'/user/register'}
+            href={ROUTER_KEYS.USER_REGISTER}
             _hover={{
               bg: 'attention.light',
             }}
@@ -324,9 +323,7 @@ const ModalLogOut = ({ isOpen, onClose, setLocalStorageUser }: any) => {
                 }}
                 as={Link}
                 href={`/`}
-                onClick={() =>
-                  setLocalStorageUser({ id: undefined, token: undefined })
-                }
+                onClick={() => setLocalStorageUser({ token: undefined })}
               >
                 Log out
               </Button>

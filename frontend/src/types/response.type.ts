@@ -1,16 +1,14 @@
+import { Project } from './project.type';
+
 type Notification = {
   status: 'info' | 'warning' | 'success' | 'error' | 'loading' | undefined;
   error?: string;
   success?: string;
 };
 
-type AxiosResponse = {
-  message: string;
+type ProjectsResponse = {
+  data: Project[];
+  metadata: { total: number };
 };
 
-type Response = {
-  id: string;
-  token: string;
-};
-
-export type { AxiosResponse, Response, Notification };
+export type { Notification, ProjectsResponse };

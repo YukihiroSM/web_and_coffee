@@ -1,7 +1,7 @@
-import { UserFormComponent } from '../components/index';
+import { UserFormPage } from '../components';
 
 const page = {
-  element: UserFormComponent,
+  element: UserFormPage,
   path: 'USER_REGISTER',
   protectedRoute: false,
   key: 'register',

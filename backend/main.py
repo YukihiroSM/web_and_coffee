@@ -27,13 +27,11 @@ app.add_middleware(
 
 @app.on_event("startup")
 def startup_db_client():
-    if os.environ.get("ENVIRONMENT") == "development":
-        app.mongodb_client = MongoClient('mongodb://mongoadmin:bdung@127.0.0.1:27017')
-    else:
-        app.mongodb_client = MongoClient(
-            'mongodb+srv://cooking-db-admin:lh5zLcAz3HYIOwWD@cookingprocluster.jwyfoeq.mongodb.net/?retryWrites=true&w=majority',
-            tlsCAFile=ca
-        )
+    app.mongodb_client = MongoClient(
+        'mongodb+srv://cooking-db-admin:lh5zLcAz3HYIOwWD@cookingprocluster.jwyfoeq.mongodb.net/?retryWrites=true&w=majority',
+        tlsCAFile=ca
+    )
+    app.database = app.mongodb_client.pm_db
 
 
 @app.on_event("shutdown")

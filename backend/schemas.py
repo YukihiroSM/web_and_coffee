@@ -80,3 +80,6 @@ class User2project(BaseModel):
     user_id: str
 
 
+class Achievement(BaseModel):
+    username: str
+    number: int

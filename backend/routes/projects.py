@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
-from schemas import ProjectItem, FeedbackItem
+from schemas import ProjectItem, Achievement
 import jwt_auth
 
 router = APIRouter(prefix="/api/project")
@@ -23,13 +23,19 @@ async def create_project(project_data: ProjectItem, request: Request):
     
     project_query["admin"] = user_query["username"]
     request.app.database.users.insert_one(project_query)
-    collect_stats(user_query["username"])
+    collect_stats(user_query["username"], request)
     project = request.app.database.users.find_one(project_query)
     return JSONResponse({"id": str(project["_id"])},status_code=200)
 
 
-def collect_stats(username: str):
-    pass
+def collect_stats(username: str, request: Request):
+    achievement = request.app.database.achievements.find_one({"username": username})
+    if achievement is None:
+        achievement = Achievement(username, 1)
+    else:
+        achievement.number += 1
+    achievement_query = jsonable_encoder(achievement)
+    request.app.database.achievements.insert_one(achievement_query)
 
 
 @router.post("/{project_id}")

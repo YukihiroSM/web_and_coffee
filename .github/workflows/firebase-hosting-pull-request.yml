@@ -13,6 +13,7 @@ jobs:
       - run: cd frontend && yarn install && CI='' yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
+          entryPoint: './frontend'
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PM_WEB_COFFEE }}'
           projectId: pm-web-coffee

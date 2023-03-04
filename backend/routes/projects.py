@@ -7,6 +7,7 @@ import jwt_auth
 
 router = APIRouter(prefix="/api/project")
 
+
 @router.post("/")
 async def create_project(project_data: ProjectItem, request: Request):
     authorization = jwt_auth.get_authorisation(request)
@@ -22,8 +23,14 @@ async def create_project(project_data: ProjectItem, request: Request):
     
     project_query["admin"] = user_query["username"]
     request.app.database.users.insert_one(project_query)
+    collect_stats(user_query["username"])
     project = request.app.database.users.find_one(project_query)
     return JSONResponse({"id": str(project["_id"])},status_code=200)
+
+
+def collect_stats(username: str):
+    pass
+
 
 @router.post("/{project_id}")
 async def delete_project(project_data: ProjectItem, request: Request):

@@ -2,7 +2,6 @@ from typing import List
 
 from fastapi import APIRouter, Request
 
-from schemas import UserItem
 from utils import compare_skills
 
 router = APIRouter(prefix="/api/team")

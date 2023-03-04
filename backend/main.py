@@ -13,6 +13,7 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 800
 
 app = FastAPI()
+app.include_router(user.router)
 
 app.add_middleware(
     CORSMiddleware,

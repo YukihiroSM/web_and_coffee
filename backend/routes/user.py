@@ -11,6 +11,7 @@ from schemas import AuthItem, UserItem, User2project
 
 router = APIRouter(prefix="/api/user")
 
+
 @router.post("/login")
 @router.options("/login")
 async def login_user(login_data: AuthItem, request: Request):

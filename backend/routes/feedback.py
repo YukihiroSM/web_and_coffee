@@ -8,7 +8,7 @@ from schemas import FeedbackItem
 router = APIRouter(prefix='/api/feedback')
 
 
-@router.get('/[project_id]')
+@router.get('/{project_id}')
 def get_feedback_by_project(project_id: str, request: Request):
     feedback_query = {"project_id": project_id}
     feedbacks = request.app.database.feedbacks.find_all(feedback_query)

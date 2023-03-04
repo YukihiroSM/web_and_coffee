@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pymongo import MongoClient
 from routes import user
+from routes import invite
 
 ca = certifi.where()
 
@@ -15,6 +16,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 800
 
 app = FastAPI()
 app.include_router(user.router)
+app.include_router(invite.router)
 
 app.add_middleware(
     CORSMiddleware,

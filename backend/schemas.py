@@ -74,6 +74,7 @@ class UserItem(BaseModel):
     resume: ResumeItem
     skills: List[str]
     portfolio: Portfolio
+    position: str
 
 
 class User2project(BaseModel):

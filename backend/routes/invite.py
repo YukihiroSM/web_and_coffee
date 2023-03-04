@@ -3,16 +3,15 @@ from fastapi_mail import FastMail, MessageSchema, ConnectionConfig, MessageType
 from starlette.responses import JSONResponse
 
 conf = ConnectionConfig(
-    MAIL_USERNAME="username",
-    MAIL_PASSWORD="***********",
-    MAIL_FROM="omeluan.dima@gmail.com",
-    MAIL_PORT=587,
-    MAIL_SERVER="smtp.gmail.com",
-    MAIL_FROM_NAME="Desired Name",
-    MAIL_STARTTLS=True,
-    MAIL_SSL_TLS=False,
-    USE_CREDENTIALS=True,
-    VALIDATE_CERTS=True
+    MAIL_SERVER = 'smtp.gmail.com',
+    MAIL_PORT=465,
+    MAIL_USERNAME= "noreply.test222@gmail.com",
+    MAIL_PASSWORD= "ibxgnthlisddcbty",
+    MAIL_STARTTLS = False,
+    MAIL_SSL_TLS = True,
+    USE_CREDENTIALS = True,
+    VALIDATE_CERTS = True,
+    MAIL_FROM = "noreply.test222@gmail.com"
 )
 
 router = APIRouter()

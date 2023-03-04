@@ -17,10 +17,6 @@ env3.*
 env
 docs_build
 venv
-<<<<<<< HEAD
-.idea
-__pycache__
-=======
 docs.zip
 archive.zip
->>>>>>> a45bfd2 (add userinfo, user projects, change status)
+auth

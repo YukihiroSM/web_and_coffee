@@ -18,7 +18,18 @@ class UserService extends HttpService {
   }
 
   getUserProjects(params: URLSearchParams) {
-    return this.get({ url: `${BACKEND_KEYS.USER_PROJECTS}?${params}` }, false);
+    return this.get({ url: `${BACKEND_KEYS.USER_PROJECTS}?${params}` }, true);
+  }
+
+  createUserResume(resume: FormData) {
+    return this.post(
+      { url: BACKEND_KEYS.USER_RESUME_CREATE, data: resume },
+      true
+    );
+  }
+
+  getUserResume() {
+    return this.get({ url: BACKEND_KEYS.USER_RESUME_GET }, true);
   }
 
   // getUserIngredients(id: string) {

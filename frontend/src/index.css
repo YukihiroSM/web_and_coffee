@@ -160,3 +160,25 @@ code {
   transform: scale(1.05);
   transition: all 0.3s ease-in-out;
 }
+
+/* datepicker */
+.custom-datepicker {
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.react-datepicker-wrapper {
+  display: block;
+}
+
+.react-datepicker__month-dropdown-container {
+  margin-left: 10px;
+}
+
+.react-datepicker__year-dropdown-container {
+  margin-right: 10px;
+}

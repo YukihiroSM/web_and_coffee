@@ -297,7 +297,6 @@ export const UserFormPage = () => {
                             <Select
                               options={POSITION_OPTIONS}
                               isMulti
-                              closeMenuOnSelect={false}
                               hideSelectedOptions={false}
                               placeholder='Select position'
                               onChange={(selectedOptions) =>
@@ -326,7 +325,6 @@ export const UserFormPage = () => {
                             <Select
                               options={REQUIREMENTS_OPTIONS}
                               isMulti
-                              closeMenuOnSelect={false}
                               hideSelectedOptions={false}
                               placeholder='Select skills'
                               onChange={(selectedOptions) =>

@@ -101,7 +101,6 @@ export const UserCreateProjectPage = () => {
                       <Select
                         options={REQUIREMENTS_OPTIONS}
                         isMulti
-                        closeMenuOnSelect={false}
                         hideSelectedOptions={false}
                         placeholder='Select requirements'
                         onChange={(selectedOptions) =>

@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Request
+from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
 import jwt_auth
@@ -12,10 +13,11 @@ def get_achievements(request: Request):
     if authorization:
         try:
             decoded_jwt = jwt_auth.decode_jwt(authorization)
-            user_query = {"username": decoded_jwt["username"]}
-            achievements = request.app.database.achievements.find_all(user_query)
-            return {"achievements": achievements}
+            username = decoded_jwt["username"]
+            data = request.app.database.achievements.find_one({"username": username})
+            response = {"data": data["number"]}
+            return JSONResponse(jsonable_encoder(response), status_code=200)
         except Exception:
-            return JSONResponse({"message": "Logout failed"}, status_code=500)
+            return JSONResponse({"message": "Error occurred"}, status_code=500)
     else:
         return JSONResponse({"message": "User not authorised!"}, status_code=401)

@@ -27,7 +27,7 @@ async def create_project(project_data: ProjectItem, request: Request):
     project_query["admin"] = user_query["username"]
     project_query["skills"] = project_data.requirements
     request.app.database.projects.insert_one(project_query)
-    # collect_stats(user_query["username"], request)
+    collect_stats(user_query["username"], request)
     # trigger_events(project_query, request)
     return JSONResponse({"id": str(project_query["_id"]), "title": project_query["title"]}, status_code=201)
 
@@ -46,12 +46,15 @@ def trigger_events(project: ProjectItem, request: Request):
 def collect_stats(username: str, request: Request):
     achievement = request.app.database.achievements.find_one({"username": username})
     if achievement is None:
-        achievement = Achievement(username=username, number=1)
-        achievement = jsonable_encoder(achievement)
-        request.app.database.achievements.insert_one(achievement)
+        request.app.database.achievements.insert_one({
+            "username": username,
+            "number": 1
+        })
     else:
-        achievement["number"] += 1
-        request.app.database.achievements.update({"username": username}, {"number": achievement["number"]})
+        request.app.database.achievements.update_one(
+            {"_id": achievement["_id"]},
+            {"$set": {"number": achievement["number"] + 1}}
+        )
 
 
 @router.delete("/{project_id}")

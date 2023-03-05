@@ -83,37 +83,11 @@ async def delete_project(project_id: str, request: Request):
     return JSONResponse({"id": str(project["_id"])}, status_code=200)
 
 
-@router.get("/{project_id}")
-async def get_project_info(project_id: str, request: Request):
-
-    project = request.app.database.projects.find_one({"_id": ObjectId(project_id)})
-
-    pr2us = request.app.database.user2project.find()
-
-    data = []
-    for item in pr2us:
-        if item['title'] == project['title']:
-            data.append(item)
-            break
-
-    if data is None:
-        return JSONResponse({"message": "Entity was not found."}, status_code=404)
-
-    members = []
-    for item in pr2us:
-        if item.approved:
-            user_query = {"username": item.username}
-            user = request.app.database.users.find_one(user_query)
-            members.append(user)
-
-    resp = {"members": members,
-            "project": project["title"]}
-    return JSONResponse(resp, status_code=200)
-
 
 @router.get("/get_projects")
 async def show_projects(request: Request,
                         page: int = 0, perPage: int = 12):
+    print("Inside")
     data = request.app.database.projects.find()
     data_to_process = data[page * perPage: (page + 1) * perPage]
 
@@ -199,4 +173,31 @@ async def add_member(user2invite: UserItem, project_data: ProjectItem, request: 
         "user": decoded_jwt["username"],
         "project": project_query["title"]
     }
+    return JSONResponse(resp, status_code=200)
+
+
+@router.get("/{project_id}")
+async def get_project_info(project_id: str, request: Request):
+    project = request.app.database.projects.find_one({"_id": ObjectId(project_id)})
+
+    pr2us = request.app.database.user2project.find()
+
+    data = []
+    for item in pr2us:
+        if item['title'] == project['title']:
+            data.append(item)
+            break
+
+    if data is None:
+        return JSONResponse({"message": "Entity was not found."}, status_code=404)
+
+    members = []
+    for item in pr2us:
+        if item.approved:
+            user_query = {"username": item.username}
+            user = request.app.database.users.find_one(user_query)
+            members.append(user)
+
+    resp = {"members": members,
+            "project": project["title"]}
     return JSONResponse(resp, status_code=200)

@@ -34,7 +34,7 @@ async def create_project(project_data: ProjectItem, request: Request):
 
 
 def trigger_events(project: ProjectItem, request: Request):
-    skills = project['skills']
+    skills = project['requirements']
     subscriptions = request.app.database.subscriptions.find()
     emails = []
     for subscription in subscriptions:

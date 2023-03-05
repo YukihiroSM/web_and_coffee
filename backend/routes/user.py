@@ -93,7 +93,7 @@ async def add_userinfo(user_data: UserItem, request: Request):
     user_query = jsonable_encoder(user_data)
     user_query["username"]= auth_query["username"]
     user_query['register_datetime'] = date.today()
-    
+
     request.app.database.users.insert_one(user_query)
     user = request.app.database.users.find_one(user_query)
     return JSONResponse({"token": authorization, "id": str(user["_id"])}, status_code=200)

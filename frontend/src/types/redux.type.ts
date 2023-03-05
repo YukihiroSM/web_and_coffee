@@ -13,10 +13,14 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 export interface State {
   success: boolean;
   loading: boolean;
-  error: string | null;
+  error: any;
 }
 
 export interface ProjectState extends State {
+  projects: { data: Project[]; metadata: { total: number } };
+}
+
+export interface UserProjectsState extends State {
   projects: { data: Project[]; metadata: { total: number } };
 }
 

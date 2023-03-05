@@ -156,8 +156,8 @@ export const ProjectsTableComponent = ({
           </Tr>
         </Thead>
         <Tbody>
-          {/* {projects.data.map((project) => ( */}
-          {projectsTemplate.map((project) => (
+          {projects.data.map((project) => (
+            // {projectsTemplate.map((project) => (
             <Tr
               transition={'all .5s ease'}
               key={project.id}

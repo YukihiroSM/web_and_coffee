@@ -8,6 +8,7 @@ export const createProjectThunk = createAsyncThunk(
   async (project: CreateProject, { rejectWithValue }) => {
     try {
       const response = await createProject(project);
+      console.log(response);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -20,6 +21,7 @@ export const getAllProjectsThunk = createAsyncThunk(
   async (params: URLSearchParams, { rejectWithValue }) => {
     try {
       const response = await getAllProjects(params);
+
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);

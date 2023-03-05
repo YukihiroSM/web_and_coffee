@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useProject } from '../hooks';
+import { useUser } from '../hooks';
 import { ProjectsTableComponent } from './projects-table.component';
 
 import { useQueryParam, StringParam, NumberParam } from 'use-query-params';
 import { Loader } from './loader.component';
 import { NotificationComponent } from './notification.component';
 
-export const ProjectAllPage = () => {
+export const UserProjectsPage = () => {
   const [notification, setNotification] = useState<any>(undefined);
-  const { loading, error, projects, handleGetAllProjects } = useProject();
+  const { loading, error, projects, handleGetUserProjects } = useUser();
   const [page, setPage] = useQueryParam('page', NumberParam);
   const [perPage, setPerPage] = useQueryParam('perPage', NumberParam);
   const [filter, setFilter] = useQueryParam('filter', StringParam);
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    handleGetAllProjects(searchParams);
+    handleGetUserProjects(searchParams);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, perPage, filter]);
 

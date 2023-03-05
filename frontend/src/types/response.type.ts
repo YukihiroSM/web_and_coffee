@@ -2,7 +2,7 @@ import { Project } from './project.type';
 
 type Notification = {
   status: 'info' | 'warning' | 'success' | 'error' | 'loading' | undefined;
-  error?: string;
+  error?: any;
   success?: string;
 };
 

@@ -23,5 +23,4 @@ export interface CreateResume {
   contact: string;
   experience?: ExperienceItem[];
   education?: EducationItem[];
-  resumePDF?: File;
 }

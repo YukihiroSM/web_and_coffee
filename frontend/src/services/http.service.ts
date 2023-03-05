@@ -28,9 +28,7 @@ export default class HttpService {
   }
 
   private populateTokenToHeaderConfig() {
-    const { token } = JSON.parse(
-      localStorage.getItem('project-me-user') || '{}'
-    );
+    const token = JSON.parse(localStorage.getItem('project-me-user') || '{}');
     return {
       Authorization: `Bearer ${token}`,
     };

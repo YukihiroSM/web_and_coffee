@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { User, State } from '../types';
+import { User, AuthState } from '../types';
 import { registerUser, loginUser } from '../api/user';
 import { BACKEND_KEYS } from '../constants';
 
@@ -8,7 +8,8 @@ export const register = createAsyncThunk(
   async (user: User, { rejectWithValue }) => {
     try {
       const response = await registerUser(user);
-      return response.data;
+
+      return response.token;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
@@ -20,7 +21,7 @@ export const login = createAsyncThunk(
   async (user: User, { rejectWithValue }) => {
     try {
       const response = await loginUser(user);
-      return response.data;
+      return response.token;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
@@ -30,10 +31,11 @@ export const login = createAsyncThunk(
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
+    token: null,
     success: false,
     loading: false,
     error: null,
-  } as State,
+  } as AuthState,
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -45,6 +47,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.success = true;
         state.error = null;
+        state.token = action.payload;
       })
       .addCase(register.rejected, (state, action) => {
         state.loading = false;
@@ -59,6 +62,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.success = true;
         state.error = null;
+        state.token = action.payload;
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;

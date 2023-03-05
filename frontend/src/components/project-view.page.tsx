@@ -15,13 +15,13 @@ import {
 import { Field, Form, Formik } from 'formik';
 import Select from 'react-select';
 import { REQUIREMENTS_OPTIONS } from '../constants';
+import { useProject } from '../hooks';
 
 export const ProjectView = () => {
   const [notification, setNotification] = useState<Notification | undefined>(
     undefined
   );
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true);
+
   const pathname = window.location.pathname.split('/');
   const projectId = pathname[pathname.length - 1];
   const [project, setProject] = useState({
@@ -30,6 +30,8 @@ export const ProjectView = () => {
     description: '',
     how_to_apply: '',
   });
+
+  const { loading, error, handleGetSingleProject } = useProject();
 
   useEffect(() => {
     const project = {
@@ -63,7 +65,6 @@ export const ProjectView = () => {
       description: 'This is the third project',
       how_to_apply: 'Apply on our website at www.example.com',
     }; // projectService.getProjectById(projectId);
-    setLoading(false);
     // @ts-ignore
     setProject(project);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -73,7 +74,7 @@ export const ProjectView = () => {
     if (error) {
       setNotification({
         status: 'error',
-        error: error || undefined,
+        error: error.message || undefined,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

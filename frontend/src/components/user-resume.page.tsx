@@ -187,7 +187,6 @@ const EducationItem = ({ index, onDelete }: EducationItemProps) => {
 };
 
 interface Props {
-  onSubmit: (values: any) => void;
   handleGetUserResume: any;
   handleCreateUserResume: any;
 }
@@ -203,7 +202,6 @@ const validationSchema = Yup.object({
 });
 
 export const ResumeFormComponent = ({
-  onSubmit,
   handleGetUserResume,
   handleCreateUserResume,
 }: Props) => {
@@ -214,14 +212,7 @@ export const ResumeFormComponent = ({
     contact: '',
     experience: [],
     education: [],
-    resumePDF: undefined,
   });
-
-  function getFormData(object: any): FormData {
-    const formData = new FormData();
-    Object.keys(object).forEach((key) => formData.append(key, object[key]));
-    return formData;
-  }
 
   useEffect(() => {
     const newValues = handleGetUserResume();
@@ -235,9 +226,7 @@ export const ResumeFormComponent = ({
       <Formik
         initialValues={initialValue}
         validationSchema={validationSchema}
-        onSubmit={(values) => {
-          handleCreateUserResume(getFormData(values));
-        }}
+        onSubmit={handleCreateUserResume}
       >
         {({ values, handleSubmit, setFieldValue, errors, touched }) => (
           <form onSubmit={handleSubmit}>
@@ -308,18 +297,6 @@ export const ResumeFormComponent = ({
                 </Box>
               )}
             </FieldArray>
-            <FormControl mb='4'>
-              <FormLabel htmlFor='resumePDF'>Upload your PDF resume</FormLabel>
-              <Input
-                id='resumePDF'
-                name='resumePDF'
-                type='file'
-                accept='application/pdf'
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                  setFieldValue('resumePDF', event.currentTarget.files?.[0])
-                }
-              />
-            </FormControl>
             <Button
               w={'full'}
               transition={'all .5s ease'}
@@ -355,14 +332,14 @@ export const UserResumePage = () => {
     if (success) {
       setNotification({
         status: 'success',
-        success: 'resume added!',
+        success: 'Resume added!',
       });
       window.location.href = '/';
     }
     if (error) {
       setNotification({
         status: 'error',
-        error: error.detail || error || undefined,
+        error: error.message || undefined,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -372,7 +349,6 @@ export const UserResumePage = () => {
       {notification && <NotificationComponent notification={notification} />}
       {loading && <Loader />}
       <ResumeFormComponent
-        onSubmit={handleCreateUserResume}
         handleGetUserResume={handleGetUserResume}
         handleCreateUserResume={handleCreateUserResume}
       />

@@ -24,7 +24,7 @@ export const ProjectAllPage = () => {
     if (error) {
       setNotification({
         status: 'error',
-        error: error.detail || error || undefined,
+        error: error.message || undefined,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

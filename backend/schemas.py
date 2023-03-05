@@ -92,3 +92,8 @@ class Subscription(BaseModel):
     user_email: str
     skills: List[str]
 
+class Blog(BaseModel):
+    title: str
+    author: str
+    content: str
+    topics: List[str]

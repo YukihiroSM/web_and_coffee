@@ -1,56 +1,44 @@
-from fastapi import BackgroundTasks
-from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
+from fastapi import APIRouter, Request
+from fastapi_mail import FastMail, MessageSchema, ConnectionConfig, MessageType
+from starlette.responses import JSONResponse
 
 # from dotenv import load_dotenv
 # load_dotenv('.env')
 
-
-# class Envs:
-#     MAIL_USERNAME = os.getenv('MAIL_USERNAME')
-#     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
-#     MAIL_FROM = os.getenv('MAIL_FROM')
-#     MAIL_PORT = int(os.getenv('MAIL_PORT'))
-#     MAIL_SERVER = os.getenv('MAIL_SERVER')
-#     MAIL_FROM_NAME = os.getenv('MAIN_FROM_NAME')
-
+from utils import generate_confirmation_token
 
 conf = ConnectionConfig(
-    MAIL_USERNAME="username",
-    MAIL_PASSWORD="aatvetouqlositsj",
-    MAIL_FROM="omeluan.dima@gmail.com",
-    MAIL_PORT=587,
-    MAIL_SERVER="mail server",
-    MAIL_FROM_NAME="Desired Name",
-    MAIL_STARTTLS=True,
-    MAIL_SSL_TLS=False,
-    USE_CREDENTIALS=True,
-    VALIDATE_CERTS=True
+    MAIL_SERVER = 'smtp.gmail.com',
+    MAIL_PORT=465,
+    MAIL_USERNAME= "noreply.test222@gmail.com",
+    MAIL_PASSWORD= "ibxgnthlisddcbty",
+    MAIL_STARTTLS = False,
+    MAIL_SSL_TLS = True,
+    USE_CREDENTIALS = True,
+    VALIDATE_CERTS = True,
+    MAIL_FROM = "noreply.test222@gmail.com"
 )
 
+router = APIRouter()
 
-# def send_email_background(background_tasks: BackgroundTasks, subject: str, email_to: str, body: dict):
-#     message = MessageSchema(
-#         subject=subject,
-#         recipients=[email_to],
-#         body=body,
-#         subtype='html',
-#     )
+async def send_verification_email(email_receiver, applicant_email, request: Request):
+    token = generate_confirmation_token(applicant_email)
+    url = request.url._url.split("/")[:3]
+    confirm_url = '/'.join(url)+f'/verify/{token}'
 
-#     fm = FastMail(conf)
+    print('/'.join(x))
 
-#     background_tasks.add_task(
-#         fm.send_message, message, template_name='email.html')
+    html = """<p>Hi! Follow the link below to confirm membership of {applicant_email} in the project.</p> 
+            <p><a href= {confirm_url}> {confirm_url}</a></p>"""
 
-def send_verification_email(email_receiver, applicant_email):
-    pass
-#     token = generate_confirmation_token(user_email)
-#     confirm_url = url_for('auth.confirm_email', token=token, _external=True)
-#     html = render_template('verify_email.html', confirm_url=confirm_url)
-#     subject = "Please confirm your email"
-#     send_email(user_email, subject, html)
 
-# def send_email(to, subject, template):
-#     mail.init_app(current_app)
-#     msg = Message(subject, recipients=[to], html=template, sender=current_app.config['MAIL_USERNAME'])
-#     mail.send(msg)
-#     print("sent email to "+str(to))
+    message = MessageSchema(
+        subject="Application Confirmation",
+        recipients=[email_receiver],
+        body=html,
+        subtype=MessageType.html,
+        )
+
+    fm = FastMail(conf)
+    await fm.send_message(message)
+    return JSONResponse(status_code=200, content={"message": "email has been sent"})

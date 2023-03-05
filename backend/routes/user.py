@@ -116,6 +116,6 @@ async def user_projects(user_data: UserItem, request: Request):
     user = request.app.database.users.find_one(user_query)
 
     resp = {"projects": result,
-            "token": authorization, 
+            "user": user, 
             "id": str(user["_id"])}
     return JSONResponse(resp, status_code=200)

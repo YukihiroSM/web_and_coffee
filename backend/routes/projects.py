@@ -101,11 +101,17 @@ async def show_projects(request: Request,
     data = request.app.database.projects.find()
     data_to_process = data[page * perPage: (page + 1) * perPage]
 
+    count = 0
+    result = []
+    for d in data_to_process:
+        count += 1
+        result.append(d["title"])
+
     resp = {
-        "data": data_to_process,
-        "metadata": {"total": len(data)}
+        "data": result,
+        "metadata": {"total": count}
     }
-    return JSONResponse(resp, status_code=200)
+    return JSONResponse(jsonable_encoder(resp), status_code=200)
 
 
 @router.patch("/{project_id}")

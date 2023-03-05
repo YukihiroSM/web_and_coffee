@@ -3,7 +3,6 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
 import jwt_auth
-from typing import Union
 from schemas import ProjectItem, Achievement, UserItem
 from services.subscription.trigger import send_notifications_on_event
 
@@ -158,7 +157,7 @@ async def add_member(user2invite: UserItem, project_data: ProjectItem, request: 
     }
     return JSONResponse(resp, status_code=200)
 
-@router.post('/${project_id}/verify/<token>')
+@router.post('/verify/<token>')
 def confirm_application(request: Request, project_data: ProjectItem, token: str):
     project_query = jsonable_encoder(project_data)
     username = confirm_token(token)

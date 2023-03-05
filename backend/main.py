@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pymongo import MongoClient
 
-from routes import invite
+from routes import invite, projects, achievements, feedback, resume, search, subscription, teammate
 from routes import user
 from services.pdf import save_pdf
 
@@ -18,6 +18,14 @@ app = FastAPI()
 app.include_router(user.router)
 app.include_router(invite.router)
 app.include_router(save_pdf.router)
+app.include_router(projects.router)
+app.include_router(achievements.router)
+app.include_router(feedback.router)
+app.include_router(resume.router)
+app.include_router(search.router)
+app.include_router(subscription.router)
+app.include_router(teammate.router)
+
 
 app.add_middleware(
     CORSMiddleware,

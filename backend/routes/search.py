@@ -5,7 +5,7 @@ from fastapi import APIRouter, Request
 from schemas import ProjectItem
 from utils import compare_skills, compare_name
 
-router = APIRouter(prefix="/api/projects/")
+router = APIRouter(prefix="/api/projects")
 
 
 @router.get("/skills")  # FIXME fix endpoint

@@ -70,6 +70,7 @@ async def logout_user(request: Request):
 async def create_user_resume():
     pass
 
+
 @router.get("/open_to_work")
 def get_users_to_hire(request: Request):
     authorization = jwt_auth.get_authorisation(request)

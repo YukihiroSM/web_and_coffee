@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Request
+from fastapi.encoders import jsonable_encoder
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig, MessageType
 from starlette.responses import JSONResponse
+from schemas import ProjectItem
 
 # from dotenv import load_dotenv
 # load_dotenv('.env')
@@ -42,3 +44,23 @@ async def send_verification_email(email_receiver, applicant_email, request: Requ
     fm = FastMail(conf)
     await fm.send_message(message)
     return JSONResponse(status_code=200, content={"message": "email has been sent"})
+
+
+async def send_project_email(project: ProjectItem, email: str):
+    project_query = jsonable_encoder(project)
+    title = project_query['title']
+    description = project_query['description']
+    html = """<p>Hi! There is a new project {title}, which matches your skills! Consider joining it :)
+            Description: {description}"""
+    
+    message = MessageSchema(
+        subject="New Project",
+        recipients=[email],
+        body=html,
+        subtype=MessageType.html,
+        )
+
+    fm = FastMail(conf)
+    await fm.send_message(message)
+    return JSONResponse(status_code=200, content={"message": "email has been sent"})
+    

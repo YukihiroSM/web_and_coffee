@@ -35,7 +35,7 @@ async def create_project(project_data: ProjectItem, request: Request):
 
 def trigger_events(project: ProjectItem, request: Request):
     skills = project['skills']
-    subscriptions = request.app.database.subscriptions.find_all()
+    subscriptions = request.app.database.subscriptions.find()
     emails = []
     for subscription in subscriptions:
         uni = skills.union(subscription["skills"])
@@ -91,7 +91,7 @@ async def get_project_info(project_data: ProjectItem, request: Request):
 async def show_projects(request: Request,
                        page: int = 0, perPage: int = 12):
 
-    data = request.app.database.projects.find_all()
+    data = request.app.database.projects.find()
     data_to_process = data[page * perPage: (page + 1) * perPage]
 
     resp = {

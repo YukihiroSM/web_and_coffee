@@ -76,7 +76,7 @@ def get_users_to_hire(request: Request):
     if authorization:
         try:
             user_query = {"status": "true"}  # FIXME can be another value
-            users = request.app.database.users.find_all(user_query)
+            users = request.app.database.users.find(user_query)
             return {"users": users}
         except Exception:
             return JSONResponse({"message": "Logout failed"}, status_code=500)
@@ -107,7 +107,7 @@ async def user_projects(user_data: UserItem, request: Request):
 
     result = []
     user_query = jsonable_encoder(user_data)
-    us2pr = request.app.database.user2project.find_all(user_query)
+    us2pr = request.app.database.user2project.find(user_query)
     for item in us2pr:
         project_title = item.title
         project_query = {"title":project_title }

@@ -104,6 +104,7 @@ async def show_projects(request: Request,
             "rating": d["rating"],
             "description": d["description"],
             "how_to_apply": d["how_to_apply"],
+            "skills": d["skills"],
         })
 
     resp = {

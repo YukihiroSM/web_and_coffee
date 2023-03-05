@@ -28,19 +28,27 @@ async def create_project(project_data: ProjectItem, request: Request):
     project_query["skills"] = project_data.requirements
     request.app.database.projects.insert_one(project_query)
     collect_stats(user_query["username"], request)
-    # trigger_events(project_query, request)
+    await trigger_events(project_query, request)
     return JSONResponse({"id": str(project_query["_id"]), "title": project_query["title"]}, status_code=201)
 
 
-def trigger_events(project: ProjectItem, request: Request):
+def union(s1, s2):
+    result = []
+    for s in s1:
+        if s in s2:
+            result.append(s)
+    return result
+
+
+async def trigger_events(project: ProjectItem, request: Request):
     skills = project['requirements']
     subscriptions = request.app.database.subscriptions.find()
     emails = []
     for subscription in subscriptions:
-        uni = skills.union(subscription["skills"])
+        uni = union(skills, subscription["skills"])
         if len(uni) > 0:
-            emails.append(subscription["user_email"])
-    send_notifications_on_event(project, emails)
+            emails.append(subscription["username"])
+    await send_notifications_on_event(project, list(set(emails)))
 
 
 def collect_stats(username: str, request: Request):

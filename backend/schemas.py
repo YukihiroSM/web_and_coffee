@@ -90,7 +90,7 @@ class Achievement(BaseModel):
 
 
 class Subscription(BaseModel):
-    user_email: str
+    username: str
     skills: List[str]
 
 

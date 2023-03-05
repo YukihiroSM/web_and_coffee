@@ -44,11 +44,11 @@ async def send_verification_email(email_receiver, applicant_email, project_id, r
 
 
 async def send_project_email(project: ProjectItem, email: str):
+    project.pop("_id")
     project_query = jsonable_encoder(project)
     title = project_query['title']
     description = project_query['description']
-    html = """<p>Hi! There is a new project {title}, which matches your skills! Consider joining it :)
-            Description: {description}"""
+    html = f"<p>Hi! There is a new project {title}, which matches your skills! Consider joining it :) Description: {description}"
     
     message = MessageSchema(
         subject="New Project",
@@ -59,5 +59,6 @@ async def send_project_email(project: ProjectItem, email: str):
 
     fm = FastMail(conf)
     await fm.send_message(message)
-    return JSONResponse(status_code=200, content={"message": "email has been sent"})
+    response = jsonable_encoder({"message": "email has been sent"})
+    return JSONResponse(status_code=200, content=response)
     

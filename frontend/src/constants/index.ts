@@ -112,6 +112,27 @@ const LANDING = [
   },
 ];
 
+const EMPLOYEES = [
+  {
+    id: 1,
+    name: 'John Smith',
+    role: 'Lead Developer',
+    image: 'https://randomuser.me/api/portraits/men/1.jpg',
+  },
+  {
+    id: 2,
+    name: 'Mary Johnson',
+    role: 'Designer',
+    image: 'https://randomuser.me/api/portraits/women/2.jpg',
+  },
+  {
+    id: 3,
+    name: 'Bob Wilson',
+    role: 'Frontend Developer',
+    image: 'https://randomuser.me/api/portraits/men/3.jpg',
+  },
+];
+
 export {
   BACKEND_KEYS,
   ROUTER_KEYS,
@@ -120,4 +141,5 @@ export {
   REQUIREMENTS_OPTIONS,
   LANDING,
   POSITION_OPTIONS,
+  EMPLOYEES,
 };

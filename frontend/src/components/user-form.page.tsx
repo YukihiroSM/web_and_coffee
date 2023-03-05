@@ -280,7 +280,7 @@ export const UserFormPage = () => {
                             as={Input}
                             id='last_name'
                             name='last_name'
-                            type='password'
+                            type='text'
                             variant='filled'
                           />
                           <FormErrorMessage>

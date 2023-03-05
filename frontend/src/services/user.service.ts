@@ -17,6 +17,10 @@ class UserService extends HttpService {
     return this.post({ url: BACKEND_KEYS.LOGIN_USER, data: user }, false);
   }
 
+  getUserProjects(params: URLSearchParams) {
+    return this.get({ url: `${BACKEND_KEYS.USER_PROJECTS}?${params}` }, false);
+  }
+
   // getUserIngredients(id: string) {
   //   return this.get({ url: `user/${id}${BACKEND_KEYS.USER_INGREDIENTS}` });
   // }

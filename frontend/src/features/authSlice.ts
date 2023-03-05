@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { User, State } from '../types';
-import { registerUser, loginUser } from '../api';
+import { registerUser, loginUser } from '../api/user';
 import { BACKEND_KEYS } from '../constants';
 
 export const register = createAsyncThunk(

@@ -92,31 +92,35 @@ export const Header = () => {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
-            {NAV_LINKS.map((link) => (
-              <Button
-                variant={'ghost'}
-                as={Link}
-                href={
-                  link.label === 'All Projects'
-                    ? ROUTER_KEYS.PROJECT_ALL + '?page=0&perPage=10'
-                    : ROUTER_KEYS.PROJECT_CREATE
-                }
-                p={2}
-                fontSize={{ sm: 'sm', md: huge ? 'md' : 'sm' }}
-                transition={'all .5s ease'}
-                fontWeight={500}
-                color={'light'}
-                _active={{
-                  bg: 'dark',
-                }}
-                _hover={{
-                  textDecoration: 'none',
-                  color: 'white',
-                }}
-              >
-                {link.label}
-              </Button>
-            ))}
+            {NAV_LINKS.map((link) => {
+              if (link.label !== 'All Projects' && !token) return <></>;
+              else
+                return (
+                  <Button
+                    variant={'ghost'}
+                    as={Link}
+                    href={
+                      link.label === 'All Projects'
+                        ? ROUTER_KEYS.PROJECT_ALL + '?page=0&perPage=10'
+                        : ROUTER_KEYS.PROJECT_CREATE
+                    }
+                    p={2}
+                    fontSize={{ sm: 'sm', md: huge ? 'md' : 'sm' }}
+                    transition={'all .5s ease'}
+                    fontWeight={500}
+                    color={'light'}
+                    _active={{
+                      bg: 'dark',
+                    }}
+                    _hover={{
+                      textDecoration: 'none',
+                      color: 'white',
+                    }}
+                  >
+                    {link.label}
+                  </Button>
+                );
+            })}
           </HStack>
           <Box
             textStyle={{
@@ -142,31 +146,35 @@ export const Header = () => {
         {isOpen ? (
           <Box pb={4} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
-              {NAV_LINKS.map((link) => (
-                <Button
-                  variant={'ghost'}
-                  as={Link}
-                  href={
-                    link.label === 'All Projects'
-                      ? ROUTER_KEYS.PROJECT_ALL + '?page=0&perPage=10'
-                      : ROUTER_KEYS.PROJECT_CREATE
-                  }
-                  p={2}
-                  fontSize={{ sm: 'sm', md: huge ? 'md' : 'sm' }}
-                  transition={'all .5s ease'}
-                  fontWeight={500}
-                  color={'light'}
-                  _active={{
-                    bg: 'dark',
-                  }}
-                  _hover={{
-                    textDecoration: 'none',
-                    color: 'white',
-                  }}
-                >
-                  {link.label}
-                </Button>
-              ))}
+              {NAV_LINKS.map((link) => {
+                if (link.label !== 'All Projects' && !token) return '';
+                else
+                  return (
+                    <Button
+                      variant={'ghost'}
+                      as={Link}
+                      href={
+                        link.label === 'All Projects'
+                          ? ROUTER_KEYS.PROJECT_ALL + '?page=0&perPage=10'
+                          : ROUTER_KEYS.PROJECT_CREATE
+                      }
+                      p={2}
+                      fontSize={{ sm: 'sm', md: huge ? 'md' : 'sm' }}
+                      transition={'all .5s ease'}
+                      fontWeight={500}
+                      color={'light'}
+                      _active={{
+                        bg: 'dark',
+                      }}
+                      _hover={{
+                        textDecoration: 'none',
+                        color: 'white',
+                      }}
+                    >
+                      {link.label}
+                    </Button>
+                  );
+              })}
             </Stack>
           </Box>
         ) : null}
@@ -320,7 +328,7 @@ const ModalLogOut = ({ isOpen, onClose, setLocalStorageUser }: any) => {
                   textDecoration: 'none',
                 }}
                 as={Link}
-                href={`/`}
+                href={ROUTER_KEYS.USER_LOGIN}
                 onClick={() => setLocalStorageUser({ token: undefined })}
               >
                 Log out

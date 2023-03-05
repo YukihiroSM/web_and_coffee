@@ -11,6 +11,11 @@ const loginUser = async (user: User) => {
   return data;
 };
 
+const getUserProjects = async (params: URLSearchParams) => {
+  const { data } = await userService.getUserProjects(params);
+  return data;
+};
+
 // const getUserIngredients = async (id: string) => {
 //   const { data } = await userService.getUserIngredients(id);
 //   return data;
@@ -34,4 +39,4 @@ const loginUser = async (user: User) => {
 //   return data;
 // };
 
-export { registerUser, loginUser };
+export { registerUser, loginUser, getUserProjects };

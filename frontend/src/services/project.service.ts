@@ -17,7 +17,7 @@ class ProjectService extends HttpService {
   getAllProjects(params: URLSearchParams) {
     return this.get(
       {
-        url: `${BACKEND_KEYS.PROJECT_CREATE}?${params}`,
+        url: `${BACKEND_KEYS.PROJECT_ALL}?${params}`,
       },
       false
     );

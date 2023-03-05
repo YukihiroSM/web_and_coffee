@@ -31,9 +31,7 @@ import {
 } from '../constants';
 
 const registerSchema = Yup.object({
-  username: Yup.string()
-    .min(4, 'Username must contain at least 4 characters')
-    .required('Username is required'),
+  username: Yup.string().email('Invalid email').required('Email is required'),
   password: Yup.string()
     .min(8, 'Password must contain at least 8 characters')
     .required('Enter your password'),
@@ -55,9 +53,7 @@ const registerSchema = Yup.object({
 });
 
 const loginSchema = Yup.object({
-  username: Yup.string()
-    .min(4, 'Username must contain at least 4 characters')
-    .required('Username is required'),
+  username: Yup.string().email('Invalid email').required('Email is required'),
   password: Yup.string()
     .min(8, 'Password must contain at least 8 characters')
     .required('Enter your password'),
@@ -238,7 +234,7 @@ export const UserFormPage = () => {
                   <FormControl
                     isInvalid={!!errors.username && touched.username}
                   >
-                    <FormLabel htmlFor='username'>Username</FormLabel>
+                    <FormLabel htmlFor='username'>Email</FormLabel>
                     <Field
                       as={Input}
                       id='username'

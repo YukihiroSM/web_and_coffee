@@ -11,4 +11,14 @@ const getAllProjects = async (params: URLSearchParams) => {
   return data;
 };
 
-export { createProject, getAllProjects };
+const getSingleProject = async (id: string) => {
+  const { data } = await projectService.getProjectById(id);
+  return data;
+};
+
+const deleteSingleProject = async (id: string) => {
+  const { data } = await projectService.deleteProjectById(id);
+  return data;
+};
+
+export { createProject, getAllProjects, deleteSingleProject, getSingleProject };

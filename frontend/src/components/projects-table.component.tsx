@@ -12,105 +12,9 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { Project, ProjectsResponse } from '../types';
-import { BiSort } from 'react-icons/bi';
-import { ProjectView } from './project-view.page';
 
-const projectsTemplate: Project[] = [
-  {
-    id: '1',
-    admin: 'John Doe',
-    title: 'Project A',
-    requirements: ['JavaScript', 'React', 'Node.js', 'MongoDB'],
-    feedback: [
-      {
-        score: 9,
-        comment: 'Great project, really enjoyed working on it!',
-      },
-      {
-        score: 8,
-        comment:
-          'Some areas for improvement, but overall a positive experience.',
-      },
-    ],
-    status: 'Active',
-    members: [
-      {
-        first_name: 'Alice',
-        position: 'Frontend Developer',
-      },
-      {
-        first_name: 'Bob',
-        position: 'Backend Developer',
-      },
-    ],
-    rating: 4.5,
-    description: 'This is the first project',
-    how_to_apply: 'Send your CV and portfolio to john@doe.com',
-  },
-  {
-    id: '2',
-    admin: 'Jane Smith',
-    title: 'Project B',
-    requirements: ['Python', 'Django', 'PostgreSQL'],
-    feedback: [
-      {
-        score: 7,
-        comment: 'Good project, but some communication issues with the admin.',
-      },
-      {
-        score: 6,
-        comment:
-          'Had some technical difficulties, but managed to overcome them.',
-      },
-    ],
-    status: 'Inactive',
-    members: [
-      {
-        first_name: 'Charlie',
-        position: 'Full-stack Developer',
-      },
-      {
-        first_name: 'David',
-        position: 'Data Analyst',
-      },
-    ],
-    rating: 3.5,
-    description: 'This is the second project',
-    how_to_apply: 'Send your CV and cover letter to jane@smith.com',
-  },
-  {
-    id: '3',
-    admin: 'Mark Johnson',
-    title: 'Project C',
-    requirements: ['Java', 'Spring Boot', 'MySQL'],
-    feedback: [
-      {
-        score: 10,
-        comment:
-          'Absolutely loved this project, would work on it again anytime!',
-      },
-      {
-        score: 9,
-        comment: 'Great team and admin, highly recommended.',
-      },
-    ],
-    status: 'Active',
-    members: [
-      {
-        first_name: 'Emily',
-        position: 'Backend Developer',
-      },
-      {
-        first_name: 'Frank',
-        position: 'QA Engineer',
-      },
-    ],
-    rating: 5,
-    description: 'This is the third project',
-    how_to_apply: 'Apply on our website at www.example.com',
-  },
-];
+import { ProjectsResponse } from '../types';
+import { BiSort } from 'react-icons/bi';
 
 type Props = {
   projects: ProjectsResponse;
@@ -158,12 +62,11 @@ export const ProjectsTableComponent = ({
         </Thead>
         <Tbody>
           {projects.data.map((project) => (
-            // {projectsTemplate.map((project) => (
             <Tr
               key={project.id}
               cursor='pointer'
               onClick={() => {
-                window.location.href = `/projects/${project.id}`
+                window.location.href = `/projects/${project.id}`;
               }}
             >
               <Td>{project.title}</Td>

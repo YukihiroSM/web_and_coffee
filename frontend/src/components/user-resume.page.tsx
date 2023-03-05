@@ -193,7 +193,7 @@ interface Props {
 }
 
 const validationSchema = Yup.object({
-  username: Yup.string().required('Email is required'),
+  username: Yup.string().email('Invalid email').required('Email is required'),
   about: Yup.string().required('About is required'),
   skills: Yup.array()
     .of(Yup.string())

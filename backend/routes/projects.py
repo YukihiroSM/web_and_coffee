@@ -28,7 +28,7 @@ async def create_project(project_data: ProjectItem, request: Request):
     project_query["admin"] = user_query["username"]
     request.app.database.users.insert_one(project_query)
     collect_stats(user_query["username"], request)
-    project = request.app.database.projects.insert_one(project_query)
+    project = request.app.database.projects.find_one(project_query)
     trigger_events(project, request)
     return JSONResponse({"id": str(project["_id"])}, status_code=201)
 

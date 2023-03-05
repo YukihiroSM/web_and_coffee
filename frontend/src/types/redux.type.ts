@@ -27,4 +27,8 @@ export interface UserProjectsState extends State {
   resume: CreateResume | null;
 }
 
+export interface AuthState extends State {
+  token: string | null;
+}
+
 export type AppDispatch = ThunkDispatch<RootState, unknown, AnyAction>;

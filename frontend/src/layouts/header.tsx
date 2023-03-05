@@ -27,16 +27,13 @@ import {
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { useLocation } from 'react-router-dom';
 import { throttle } from '../utils';
-import { LocalStorageUser } from '../types';
 import { useLocalStorage } from '../hooks';
 import { NAV_LINKS, ROUTER_KEYS } from '../constants';
 
 export const Header = () => {
-  const [{ token }, setLocalStorageUser] = useLocalStorage<LocalStorageUser>(
+  const [token, setLocalStorageUser] = useLocalStorage<string | null>(
     'project-me-user',
-    {
-      token: undefined,
-    }
+    null
   );
   const { pathname } = useLocation();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -212,7 +209,7 @@ export const Header = () => {
 
 type UserProps = {
   huge: boolean;
-  token: string | undefined;
+  token: string | null;
   setLocalStorageUser: any;
 };
 
@@ -237,6 +234,7 @@ const User = ({ huge, token, setLocalStorageUser }: UserProps) => {
               minW={0}
             >
               <Avatar
+                src={'https://i.pravatar.cc/300'}
                 bg={'attention.dark'}
                 transition={'all .5s ease'}
                 size={{ sm: 'sm', md: huge ? 'md' : 'sm' }}

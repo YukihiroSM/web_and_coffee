@@ -31,29 +31,6 @@ class UserService extends HttpService {
   getUserResume() {
     return this.get({ url: BACKEND_KEYS.USER_RESUME_GET }, true);
   }
-
-  // getUserIngredients(id: string) {
-  //   return this.get({ url: `user/${id}${BACKEND_KEYS.USER_INGREDIENTS}` });
-  // }
-
-  // getUserPossibleMeals(id: string, params: URLSearchParams) {
-  //   return this.get({
-  //     url: `user/${id}${BACKEND_KEYS.USER_POSSIBLE_MEALS}?${params}`,
-  //   });
-  // }
-
-  // createUserIngredient(id: string, ingredient: CreateIngredient) {
-  //   return this.post({
-  //     url: `user/${id}${BACKEND_KEYS.CREATE_USER_INGREDIENT}`,
-  //     data: ingredient,
-  //   });
-  // }
-
-  // deleteUserIngredient(userID: string, ingredientID: string) {
-  //   return this.delete({
-  //     url: `user/${userID}${BACKEND_KEYS.DELETE_USER_INGREDIENT}/${ingredientID}`,
-  //   });
-  // }
 }
 
 export const userService = new UserService();

@@ -15,7 +15,7 @@ const routes = [
   landing,
   userProjects,
   userResume,
-  viewProject
+  viewProject,
 ];
 
 export default routes;

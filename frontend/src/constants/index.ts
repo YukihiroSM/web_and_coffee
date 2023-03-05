@@ -16,6 +16,7 @@ const ROUTER_KEYS = {
   USER_REGISTER: '/user/register',
   USER_RESUME: '/user/resume',
   USER_PROJECTS: '/user/projects',
+  USER_PROFILE: '/user/:id',
   PROJECT_CREATE: '/project/create',
   PROJECT_VIEW: '/project/:id',
   PROJECT_ALL: '/projects',

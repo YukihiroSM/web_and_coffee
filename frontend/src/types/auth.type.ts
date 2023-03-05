@@ -6,7 +6,3 @@ export interface User {
   position?: string[];
   skills?: string[];
 }
-
-export interface LocalStorageUser {
-  token: string | undefined;
-}

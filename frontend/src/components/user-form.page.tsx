@@ -138,7 +138,7 @@ export const UserFormPage = () => {
     if (error) {
       setNotification({
         status: 'error',
-        error: error || undefined,
+        error: error.message || undefined,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

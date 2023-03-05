@@ -6,7 +6,7 @@ const BACKEND_KEYS = {
   USER_RESUME_GET: 'user/get_resume',
   PROJECT_CREATE: 'project',
   PROJECT_VIEW: 'project/:id',
-  PROJECT_DELETE: 'project/:id/delete',
+  PROJECT_DELETE: 'project/:id',
   PROJECT_ALL: 'project/get_projects',
 };
 

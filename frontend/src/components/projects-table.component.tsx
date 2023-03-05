@@ -11,6 +11,7 @@ import {
   Container,
   Stack,
   Text,
+  Box,
 } from '@chakra-ui/react';
 
 import { ProjectsResponse } from '../types';
@@ -34,7 +35,7 @@ export const ProjectsTableComponent = ({
   setFilter,
 }: Props) => {
   return (
-    <Container maxWidth={'none'} m={0} p={0} px={20} mt={8}>
+    <Container maxWidth={'none'} m={0} p={0} px={{ sm: 5, md: 20 }} mt={8}>
       <Table>
         <Thead>
           <Tr>
@@ -47,7 +48,9 @@ export const ProjectsTableComponent = ({
               <Text>Title</Text>
               <BiSort size={'18'} />
             </Th>
-            <Th>Description</Th>
+            <Box display={{ base: 'none', md: 'table-cell' }}>
+              <Th>Description</Th>
+            </Box>
             <Th>Requirements</Th>
             <Th
               onClick={() => setFilter('rating')}
@@ -70,9 +73,9 @@ export const ProjectsTableComponent = ({
               }}
             >
               <Td>{project.title}</Td>
-              <Td display={{ base: 'none', md: 'table-cell' }}>
-                {project.description}
-              </Td>
+              <Box display={{ base: 'none', md: 'table-cell' }}>
+                <Td>{project.description}</Td>
+              </Box>
               <Td>
                 {project.requirements.map((req) => (
                   <Button key={req} variant='outline' size='sm' mr={2} mb={2}>

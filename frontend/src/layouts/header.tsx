@@ -79,7 +79,7 @@ export const Header = () => {
           color={'white'}
           transition={'all .5s ease'}
           py={{ md: 2 }}
-          px={{ md: 20 }}
+          px={{ sm: 10, md: 20 }}
           align={'center'}
           position={'relative'}
           justifyContent={'space-between'}
@@ -89,6 +89,10 @@ export const Header = () => {
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
             aria-label={'Open Menu'}
             display={{ md: 'none' }}
+            backgroundColor={'black'}
+            _hover={{
+              color: 'white',
+            }}
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
@@ -136,7 +140,7 @@ export const Header = () => {
               ProjectMe
             </Text>
           </Box>
-          <Box alignItems={'center'}>
+          <Box display={{ base: 'none', md: 'flex' }} alignItems={'center'}>
             <User
               huge={huge}
               setLocalStorageUser={setLocalStorageUser}
@@ -152,29 +156,50 @@ export const Header = () => {
                 if (link.label !== 'All Projects' && !token) return '';
                 else
                   return (
-                    <Button
-                      variant={'ghost'}
-                      as={Link}
-                      href={
-                        link.label === 'All Projects'
-                          ? ROUTER_KEYS.PROJECT_ALL + '?page=0&perPage=10'
-                          : ROUTER_KEYS.PROJECT_CREATE
-                      }
-                      p={2}
-                      fontSize={{ sm: 'sm', md: huge ? 'md' : 'sm' }}
-                      transition={'all .5s ease'}
-                      fontWeight={500}
-                      color={'light'}
-                      _active={{
-                        bg: 'dark',
-                      }}
-                      _hover={{
-                        textDecoration: 'none',
-                        color: 'white',
-                      }}
-                    >
-                      {link.label}
-                    </Button>
+                    <>
+                      <Stack
+                        px={10}
+                        direction={'row'}
+                        backgroundColor={'black'}
+                        py={2}
+                        m={0}
+                        w={'full'}
+                        display={{ base: 'flex', md: 'none' }}
+                        alignItems={'center'}
+                        justify={'space-between'}
+                      >
+                        <Button
+                          as={Link}
+                          href={
+                            link.label === 'All Projects'
+                              ? ROUTER_KEYS.PROJECT_ALL + '?page=0&perPage=10'
+                              : ROUTER_KEYS.PROJECT_CREATE
+                          }
+                          p={2}
+                          backgroundColor={'black'}
+                          fontSize={{ sm: 'sm', md: huge ? 'md' : 'sm' }}
+                          transition={'all .5s ease'}
+                          fontWeight={500}
+                          color={'light'}
+                          _active={{
+                            bg: 'dark',
+                          }}
+                          _hover={{
+                            textDecoration: 'none',
+                            color: 'white',
+                          }}
+                        >
+                          {link.label}
+                        </Button>
+                        <Box>
+                          <User
+                            huge={huge}
+                            setLocalStorageUser={setLocalStorageUser}
+                            token={token}
+                          />
+                        </Box>
+                      </Stack>
+                    </>
                   );
               })}
             </Stack>

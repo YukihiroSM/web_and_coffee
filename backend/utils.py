@@ -1,4 +1,6 @@
 from itsdangerous import URLSafeTimedSerializer
+from Levenshtein import distance as lev
+
 
 def compare_skills(given, proposed):
     number = 0
@@ -8,8 +10,7 @@ def compare_skills(given, proposed):
 
 
 def compare_name(given, propose):
-    # implement comparison with 2-3 letters wrong (Levenshtain dist or so)
-    return given==propose
+    return lev(given,propose) < 3
 
 
 def generate_confirmation_token(email, project_id):

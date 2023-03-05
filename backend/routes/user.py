@@ -100,23 +100,21 @@ async def add_userinfo(user_data: UserItem, request: Request):
     return JSONResponse({"token": authorization, "id": str(user["_id"])}, status_code=200)
 
 
-@router.post("/${id}/projects")
-async def user_projects(user_data: UserItem, request: Request):
+@router.get("/projects")
+async def user_projects(request: Request, page: int = 0, perPage: int = 12):
     authorization = jwt_auth.get_authorisation(request)
-    decoded_jwt = jwt_auth.decode_jwt(authorization)
-    user_query = {"username": decoded_jwt["username"]}
+    if authorization:
+        decoded_jwt = jwt_auth.decode_jwt(authorization)
 
-    result = []
-    user_query = jsonable_encoder(user_data)
-    us2pr = request.app.database.user2project.find(user_query)
-    for item in us2pr:
-        project_title = item.title
-        project_query = {"title":project_title }
-        project = request.app.database.projects.find_one(project_query) 
-        result.append(project)
-    user = request.app.database.users.find_one(user_query)
-
-    resp = {"projects": result,
-            "user": user, 
-            "id": str(user["_id"])}
-    return JSONResponse(resp, status_code=200)
+        data = request.app.database.projects.find()
+        projects = []
+        for d in data:
+            if d['admin'] == decoded_jwt['username']:
+                d.pop("_id")
+                projects.append(d)
+        projects = projects[page * perPage: (page + 1) * perPage]
+        resp = {"projects": projects,
+                "username": decoded_jwt['username']}
+        return JSONResponse(jsonable_encoder(resp), status_code=200)
+    else:
+        return JSONResponse({"message": "User not authorised!"}, status_code=401)

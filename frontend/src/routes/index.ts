@@ -4,7 +4,8 @@ import createProject from './project-create.route';
 import allProjects from './project-all.route';
 import landing from './landing.route';
 import userProjects from './user-projects.route';
-import userresume from './user-resume.route';
+import userResume from './user-resume.route';
+import viewProject from './project-view.route';
 
 const routes = [
   register,
@@ -13,7 +14,8 @@ const routes = [
   allProjects,
   landing,
   userProjects,
-  userresume,
+  userResume,
+  viewProject
 ];
 
 export default routes;

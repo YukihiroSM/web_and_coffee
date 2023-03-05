@@ -1,5 +1,5 @@
 from datetime import date
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from pydantic import BaseModel
 
@@ -58,9 +58,9 @@ class ProjectItem(BaseModel):
     admin: str
     title: str
     requirements: List[str]
-    feedback: FeedbackItem
-    status: str
-    rating: int
+    feedback: Union[List[FeedbackItem], None]
+    status: Union[str, None]
+    rating: Union[int, None]
     description: str
     how_to_apply: str
 
@@ -92,3 +92,8 @@ class Subscription(BaseModel):
     user_email: str
     skills: List[str]
 
+class Blog(BaseModel):
+    title: str
+    author: str
+    content: str
+    topics: List[str]

@@ -70,6 +70,7 @@ async def logout_user(request: Request):
 async def create_user_resume():
     pass
 
+
 @router.get("/open_to_work")
 def get_users_to_hire(request: Request):
     authorization = jwt_auth.get_authorisation(request)
@@ -93,7 +94,7 @@ async def add_userinfo(user_data: UserItem, request: Request):
     user_query = jsonable_encoder(user_data)
     user_query["username"]= auth_query["username"]
     user_query['register_datetime'] = date.today()
-    
+
     request.app.database.users.insert_one(user_query)
     user = request.app.database.users.find_one(user_query)
     return JSONResponse({"token": authorization, "id": str(user["_id"])}, status_code=200)

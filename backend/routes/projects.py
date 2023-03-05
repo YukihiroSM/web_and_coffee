@@ -28,13 +28,13 @@ async def create_project(project_data: ProjectItem, request: Request):
     project_query["admin"] = user_query["username"]
     request.app.database.users.insert_one(project_query)
     collect_stats(user_query["username"], request)
-    project = request.app.database.projects.insert_one(project_query)
+    project = request.app.database.projects.find_one(project_query)
     trigger_events(project, request)
     return JSONResponse({"id": str(project["_id"])}, status_code=201)
 
 
 def trigger_events(project: ProjectItem, request: Request):
-    skills = project['skills']
+    skills = project['requirements']
     subscriptions = request.app.database.subscriptions.find()
     emails = []
     for subscription in subscriptions:
@@ -70,10 +70,14 @@ async def delete_project(project_data: ProjectItem, request: Request):
     project = request.app.database.users.find_one(project_query)
     return JSONResponse({"id": str(project["_id"])}, status_code=200)
 
-@router.post("/${project_id}")
+
+@router.get("/${project_id}")
 async def get_project_info(project_data: ProjectItem, request: Request):
     project_query = jsonable_encoder(project_data)
     pr2us = request.app.database.user2project.find_one(project_query["title"])
+
+    if pr2us is None:
+        return JSONResponse({"message": "Entity was not found."}, status_code=404)
 
     members = []
     for item in pr2us:
@@ -134,6 +138,7 @@ async def apply_to_project(project_data: ProjectItem, request: Request):
     }
     return JSONResponse(resp, status_code=200)
 
+
 @router.post("/${project_id}/invite_to_project")
 async def add_member(user2invite: UserItem, project_data: ProjectItem, request: Request):
     authorization = jwt_auth.get_authorisation(request)
@@ -156,6 +161,7 @@ async def add_member(user2invite: UserItem, project_data: ProjectItem, request: 
         "project": project_query["title"]
     }
     return JSONResponse(resp, status_code=200)
+
 
 @router.post('/verify/<token>')
 def confirm_application(request: Request, project_data: ProjectItem, token: str):

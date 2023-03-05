@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { Project, ProjectsResponse } from '../types';
 import { BiSort } from 'react-icons/bi';
+import { ProjectView } from './project-view.page';
 
 const projectsTemplate: Project[] = [
   {
@@ -159,12 +160,10 @@ export const ProjectsTableComponent = ({
           {projects.data.map((project) => (
             // {projectsTemplate.map((project) => (
             <Tr
-              transition={'all .5s ease'}
               key={project.id}
               cursor='pointer'
-              onClick={() => (window.location.href = `/project/${project.id}`)}
-              _hover={{
-                backgroundColor: 'gray.50',
+              onClick={() => {
+                window.location.href = `/projects/${project.id}`
               }}
             >
               <Td>{project.title}</Td>

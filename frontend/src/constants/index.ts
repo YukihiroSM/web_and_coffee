@@ -5,6 +5,7 @@ const BACKEND_KEYS = {
   USER_RESUME_CREATE: 'user/create_resume',
   USER_RESUME_GET: 'user/get_resume',
   PROJECT_CREATE: 'project',
+  PROJECT_VIEW: 'project/view',
   PROJECT_ALL: 'project/get_projects',
 };
 
@@ -16,6 +17,7 @@ const ROUTER_KEYS = {
   USER_PROJECTS: '/user/projects',
   PROJECT_CREATE: '/project/create',
   PROJECT_ALL: '/projects',
+  PROJECT_VIEW: '/projects/:projectId'
 };
 
 const NAV_LINKS = [

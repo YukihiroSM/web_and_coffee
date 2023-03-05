@@ -22,6 +22,16 @@ class ProjectService extends HttpService {
       false
     );
   }
+
+  getProjectById(params: string) {
+      return this.get(
+          {
+              url: `${BACKEND_KEYS.PROJECT_VIEW}`
+          },
+          false
+      );
+  }
+
   // getMealsByFilter(params: URLSearchParams) {
   //   return this.get(
   //     {

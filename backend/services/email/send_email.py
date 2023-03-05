@@ -23,16 +23,13 @@ conf = ConnectionConfig(
 
 router = APIRouter()
 
-async def send_verification_email(email_receiver, applicant_email, request: Request):
-    token = generate_confirmation_token(applicant_email)
+
+async def send_verification_email(email_receiver, applicant_email, project_id, request: Request):
+    token = generate_confirmation_token(applicant_email, project_id)
     url = request.url._url.split("/")[:3]
-    confirm_url = '/'.join(url)+f'/verify/{token}'
+    confirm_url = '/'.join(url)+f'/verify?token={token}'
 
-    print('/'.join(x))
-
-    html = """<p>Hi! Follow the link below to confirm membership of {applicant_email} in the project.</p> 
-            <p><a href= {confirm_url}> {confirm_url}</a></p>"""
-
+    html = f"<p>Hi! Follow the link below to confirm membership of {applicant_email} in the project.</p> <p><a href= {confirm_url} > {confirm_url}</a></p>"
 
     message = MessageSchema(
         subject="Application Confirmation",

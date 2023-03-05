@@ -4,7 +4,7 @@ from typing import Dict
 
 import jwt
 
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = "random_secret_key"  # os.environ.get("SECRET_KEY")
 ALGORITHM = "HS256"
 
 

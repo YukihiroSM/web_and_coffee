@@ -11,18 +11,20 @@ def compare_name(given, propose):
     # implement comparison with 2-3 letters wrong (Levenshtain dist or so)
     return given==propose
 
-def generate_confirmation_token(email):
+
+def generate_confirmation_token(email, project_id):
     serializer = URLSafeTimedSerializer('SECRET_KEY')
-    return serializer.dumps(email, salt='SECURITY_PASSWORD_SALT')
+    return serializer.dumps(email + "~" + str(project_id), salt='SECURITY_PASSWORD_SALT')
+
 
 def confirm_token(token, expiration=3600):
     serializer = URLSafeTimedSerializer('SECRET_KEY')
     try:
-        email = serializer.loads(
+        value = serializer.loads(
             token,
             salt='SECURITY_PASSWORD_SALT',
             max_age=expiration
         )
     except:
         return False
-    return email
+    return value

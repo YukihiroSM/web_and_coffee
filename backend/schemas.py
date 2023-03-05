@@ -31,8 +31,8 @@ class ResumeItem(BaseModel):
     username: Union[str, None]
     about: str
     skills: List[str]
-    experience: List[ExperienceItem]
-    education: List[EducationItem]
+    experience: Union[List[ExperienceItem], None]
+    education: Union[List[EducationItem], None]
     contact: str
 
 

@@ -16,6 +16,16 @@ const getUserProjects = async (params: URLSearchParams) => {
   return data;
 };
 
+const createUserResume = async (resume: FormData) => {
+  const { data } = await userService.createUserResume(resume);
+  return data;
+};
+
+const getUserResume = async () => {
+  const { data } = await userService.getUserResume();
+  return data;
+};
+
 // const getUserIngredients = async (id: string) => {
 //   const { data } = await userService.getUserIngredients(id);
 //   return data;
@@ -39,4 +49,10 @@ const getUserProjects = async (params: URLSearchParams) => {
 //   return data;
 // };
 
-export { registerUser, loginUser, getUserProjects };
+export {
+  registerUser,
+  loginUser,
+  getUserProjects,
+  createUserResume,
+  getUserResume,
+};

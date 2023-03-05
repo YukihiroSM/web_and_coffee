@@ -93,10 +93,12 @@ export const Header = () => {
           />
           <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
             {NAV_LINKS.map((link) => {
-              if (link.label !== 'All Projects' && !token) return <></>;
+              if (link.label !== 'All Projects' && !token)
+                return <div key={link.label}></div>;
               else
                 return (
                   <Button
+                    key={link.label}
                     variant={'ghost'}
                     as={Link}
                     href={
@@ -236,7 +238,7 @@ const User = ({ huge, token, setLocalStorageUser }: UserProps) => {
               </MenuItem>
               <MenuItem
                 as={Link}
-                href={ROUTER_KEYS.USER_RESUMEE}
+                href={ROUTER_KEYS.USER_RESUME}
                 _hover={{
                   textDecoration: 'none',
                   color: 'attention.light',
@@ -244,7 +246,7 @@ const User = ({ huge, token, setLocalStorageUser }: UserProps) => {
                 fontWeight={400}
                 bg={'black'}
               >
-                My resumee
+                My resume
               </MenuItem>
               <MenuDivider />
               <MenuItem

@@ -1,6 +1,10 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/store';
-import { getUserProjectsThunk } from '../features/userSlice';
+import {
+  createUserResumeThunk,
+  getUserProjectsThunk,
+  getUserResumeThunk,
+} from '../features/userSlice';
 import { AppDispatch } from '../types';
 
 export const useUser = () => {
@@ -14,5 +18,22 @@ export const useUser = () => {
     dispatch(getUserProjectsThunk(params));
   };
 
-  return { projects, success, loading, error, handleGetUserProjects };
+  const handleCreateUserResume = (resume: FormData) => {
+    console.log(resume);
+    dispatch(createUserResumeThunk(resume));
+  };
+
+  const handleGetUserResume = () => {
+    dispatch(getUserResumeThunk(''));
+  };
+
+  return {
+    projects,
+    success,
+    loading,
+    error,
+    handleGetUserProjects,
+    handleCreateUserResume,
+    handleGetUserResume,
+  };
 };

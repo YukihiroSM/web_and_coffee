@@ -2,6 +2,8 @@ const BACKEND_KEYS = {
   REGISTER_USER: 'user/register',
   LOGIN_USER: 'user/login',
   USER_PROJECTS: 'user/projects',
+  USER_RESUME_CREATE: 'user/create_resume',
+  USER_RESUME_GET: 'user/get_resume',
   PROJECT_CREATE: 'project',
   PROJECT_ALL: 'project/get_projects',
 };
@@ -10,7 +12,7 @@ const ROUTER_KEYS = {
   LANDING: '/',
   USER_LOGIN: '/user/login',
   USER_REGISTER: '/user/register',
-  USER_RESUMEE: '/user/resumee',
+  USER_RESUME: '/user/resume',
   USER_PROJECTS: '/user/projects',
   PROJECT_CREATE: '/project/create',
   PROJECT_ALL: '/projects',

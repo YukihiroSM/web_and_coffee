@@ -34,7 +34,7 @@ export const getAllProjectsThunk = createAsyncThunk(
 );
 
 export const getSingleProjectThunk = createAsyncThunk(
-  BACKEND_KEYS.PROJECT_VIEW,
+  BACKEND_KEYS.PROJECT_VIEW + '/view',
   async (id: string, { rejectWithValue }) => {
     try {
       const response = await getSingleProject(id);
@@ -46,7 +46,7 @@ export const getSingleProjectThunk = createAsyncThunk(
 );
 
 export const deleteSingleProjectThunk = createAsyncThunk(
-  BACKEND_KEYS.PROJECT_DELETE,
+  BACKEND_KEYS.PROJECT_DELETE + '/delete',
   async (id: string, { rejectWithValue }) => {
     try {
       const response = await deleteSingleProject(id);

@@ -154,6 +154,24 @@ code {
   padding-inline: 10em;
 }
 
+/* Mobile responsive styles */
+@media (max-width: 767px) {
+  .slider-popup-container {
+    max-width: 90%;
+    left: 5%;
+    top: 10%;
+  }
+
+  .slider-popup {
+    padding: 10px;
+  }
+
+  .popup-decoration {
+    background-size: 20px;
+    padding-inline: 2em;
+  }
+}
+
 /* multiple slider */
 #multiple-slider:hover {
   overflow: visible;

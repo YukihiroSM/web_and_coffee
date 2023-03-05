@@ -35,7 +35,7 @@ class ProjectService extends HttpService {
   deleteProjectById(id: string) {
     return this.delete(
       {
-        url: `project/${id}/delete`,
+        url: `project/${id}`,
       },
       true
     );

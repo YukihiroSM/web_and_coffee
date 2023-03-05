@@ -1,15 +1,12 @@
+from bson.objectid import ObjectId
 from fastapi import APIRouter, Request
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
-from bson.objectid import ObjectId
-
 
 import jwt_auth
 from schemas import ProjectItem, Achievement, UserItem
-from services.subscription.trigger import send_notifications_on_event
-
 from services.email.send_email import send_verification_email
-from utils import confirm_token
+from services.subscription.trigger import send_notifications_on_event
 
 router = APIRouter(prefix="/api/project")
 
@@ -87,9 +84,9 @@ async def get_project_info(project_data: ProjectItem, request: Request):
     for item in pr2us:
         if item.approved:
             user_query = {"username": item.username}
-            user = request.app.database.users.find_one(user_query) 
+            user = request.app.database.users.find_one(user_query)
             members.append(user)
-        
+
     resp = {"members": members,
             "project": project_query["title"]}
     return JSONResponse(resp, status_code=200)
@@ -97,8 +94,7 @@ async def get_project_info(project_data: ProjectItem, request: Request):
 
 @router.get("/get_projects")
 async def show_projects(request: Request,
-                       page: int = 0, perPage: int = 12):
-
+                        page: int = 0, perPage: int = 12):
     data = request.app.database.projects.find()
     data_to_process = data[page * perPage: (page + 1) * perPage]
 
@@ -109,21 +105,29 @@ async def show_projects(request: Request,
     return JSONResponse(resp, status_code=200)
 
 
-@router.patch("/${project_id}")
-async def change_status(status: str, project_data: ProjectItem, request: Request):
+@router.patch("/{project_id}")
+async def change_status(project_id: str, status: str, request: Request):
     authorization = jwt_auth.get_authorisation(request)
     decoded_jwt = jwt_auth.decode_jwt(authorization)
     user_query = {"username": decoded_jwt["username"]}
 
-    project_query = jsonable_encoder(project_data)
-    if project_query['admin'] != user_query['username']:
-        return {"message": "You have no rights to change status of project. You have to be admin for that!"}
-    
-    project_query['status']= status
+    project = request.app.database.projects.find_one({
+        "_id": ObjectId(project_id)
+    })
 
-    request.app.database.users.update_one(project_query)
-    project = request.app.database.projects.find_one(project_query)
-    return JSONResponse({"token": decoded_jwt, "id": str(project["_id"])},status_code=200)
+    if project['admin'] != user_query['username']:
+        return {"message": "You have no rights to change status of project. You have to be admin for that!"}
+
+    project['status'] = status
+
+    request.app.database.projects.update_one(
+        {"_id": ObjectId(project_id)},
+        {"$set": {"status": status}}
+    )
+    project = request.app.database.projects.find_one({
+        "_id": ObjectId(project_id)
+    })
+    return JSONResponse({"id": str(project["_id"])}, status_code=200)
 
 
 @router.post("/{project_id}/apply_to_project")
@@ -161,7 +165,7 @@ async def add_member(user2invite: UserItem, project_data: ProjectItem, request: 
     if project_query['admin'] != user_query['username']:
         return {"message": "You have no rights to invite users to project. You have to be admin for that!"}
 
-    proj_and_user_query = {"username": newuser_query["username"], "title": project_query["title"], "approved":False}
+    proj_and_user_query = {"username": newuser_query["username"], "title": project_query["title"], "approved": False}
     request.app.database.user2project.insert_one(proj_and_user_query)
 
     await send_verification_email(newuser_query["username"], newuser_query["username"], project_query["_id"], request)
@@ -171,4 +175,3 @@ async def add_member(user2invite: UserItem, project_data: ProjectItem, request: 
         "project": project_query["title"]
     }
     return JSONResponse(resp, status_code=200)
-

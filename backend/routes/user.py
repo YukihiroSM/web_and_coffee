@@ -85,6 +85,21 @@ def get_users_to_hire(request: Request):
         return JSONResponse({"message": "User not authorised!"}, status_code=401)
 
 
+@router.get("/info")
+async def get_user_info(request: Request):
+    authorization = jwt_auth.get_authorisation(request)
+    if authorization:
+        decoded_jwt = jwt_auth.decode_jwt(authorization)
+        user = request.app.database.users.find_one({"username": decoded_jwt["username"]})
+        user.pop("_id")
+        user.pop("password")
+        response = jsonable_encoder({"data": user})
+        return JSONResponse(response, status_code=200)
+    else:
+        return JSONResponse({"message": "User not authorised!"}, status_code=401)
+
+
+
 @router.post("/userinfo")
 async def add_userinfo(user_data: UserItem, request: Request):
     authorization = jwt_auth.get_authorisation(request)

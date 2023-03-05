@@ -90,12 +90,21 @@ async def show_projects(request: Request,
     print("Inside")
     data = request.app.database.projects.find()
     data_to_process = data[page * perPage: (page + 1) * perPage]
-
+    print(data_to_process)
     count = 0
     result = []
     for d in data_to_process:
         count += 1
-        result.append(d["title"])
+        result.append({
+            "admin": d["admin"],
+            "title": d["title"],
+            "requirements": d["requirements"],
+            "feedback": [],
+            "status": d["status"],
+            "rating": d["rating"],
+            "description": d["description"],
+            "how_to_apply": d["how_to_apply"],
+        })
 
     resp = {
         "data": result,

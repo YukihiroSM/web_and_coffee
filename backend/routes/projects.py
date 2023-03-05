@@ -7,6 +7,9 @@ from typing import Union
 from schemas import ProjectItem, Achievement, UserItem
 from services.subscription.trigger import send_notifications_on_event
 
+from services.email.send_email import send_verification_email
+from utils import confirm_token
+
 router = APIRouter(prefix="/api/project")
 
 
@@ -115,7 +118,6 @@ async def change_status(status: str, project_data: ProjectItem, request: Request
     project = request.app.database.projects.find_one(project_query)
     return JSONResponse({"token": decoded_jwt, "id": str(project["_id"])},status_code=200)
 
-
 @router.post("/${project_id}/apply_to_project")
 async def apply_to_project(project_data: ProjectItem, request: Request):
     authorization = jwt_auth.get_authorisation(request)
@@ -125,8 +127,10 @@ async def apply_to_project(project_data: ProjectItem, request: Request):
     proj_and_user_query = {"username": decoded_jwt["username"], "title": project_query["title"], "approved":False}
     request.app.database.user2project.insert_one(proj_and_user_query)
 
+    send_verification_email(project_query["admin"], decoded_jwt["username"])
+
     resp = {
-        "user": authorization,
+        "user": decoded_jwt["username"],
         "project": project_query["title"]
     }
     return JSONResponse(resp, status_code=200)
@@ -142,15 +146,34 @@ async def add_member(user2invite: UserItem, project_data: ProjectItem, request: 
 
     if project_query['admin'] != user_query['username']:
         return {"message": "You have no rights to invite users to project. You have to be admin for that!"}
-    
 
     proj_and_user_query = {"username": newuser_query["username"], "title": project_query["title"], "approved":False}
     request.app.database.user2project.insert_one(proj_and_user_query)
 
+    send_verification_email(newuser_query["username"], newuser_query["username"])
+
     resp = {
-        "user": authorization,
+        "user": decoded_jwt["username"],
         "project": project_query["title"]
     }
     return JSONResponse(resp, status_code=200)
+
+@router.post('/${project_id}/verify/<token>')
+def confirm_application(request: Request, project_data: ProjectItem, token: str):
+    project_query = jsonable_encoder(project_data)
+    username = confirm_token(token)
+
+    user_projects = request.app.database.user2project.find_one(username)
+
+    for project in user_projects:
+        if project.title == project_query["title"]:
+            project.approved = True
+            request.app.database.user2project.update_one(project)
+    resp = {
+        "data": user_projects,
+        "username": username
+    }
+    return JSONResponse(resp, status_code=200)
+
 
 

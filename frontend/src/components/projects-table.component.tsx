@@ -61,28 +61,29 @@ export const ProjectsTableComponent = ({
           </Tr>
         </Thead>
         <Tbody>
-          {projects.data.map((project) => (
-            <Tr
-              key={project.id}
-              cursor='pointer'
-              onClick={() => {
-                window.location.href = `/projects/${project.id}`;
-              }}
-            >
-              <Td>{project.title}</Td>
-              <Td display={{ base: 'none', md: 'table-cell' }}>
-                {project.description}
-              </Td>
-              <Td>
-                {project.requirements.map((req) => (
-                  <Button key={req} variant='outline' size='sm' mr={2} mb={2}>
-                    {req}
-                  </Button>
-                ))}
-              </Td>
-              <Td>{project.rating}</Td>
-            </Tr>
-          ))}
+          {projects &&
+            projects?.data.map((project) => (
+              <Tr
+                key={project.id}
+                cursor='pointer'
+                onClick={() => {
+                  window.location.href = `/projects/${project.id}`;
+                }}
+              >
+                <Td>{project.title}</Td>
+                <Td display={{ base: 'none', md: 'table-cell' }}>
+                  {project.description}
+                </Td>
+                <Td>
+                  {project.requirements.map((req) => (
+                    <Button key={req} variant='outline' size='sm' mr={2} mb={2}>
+                      {req}
+                    </Button>
+                  ))}
+                </Td>
+                <Td>{project.rating}</Td>
+              </Tr>
+            ))}
         </Tbody>
       </Table>
       <Stack my={4} direction={'row'} w={'full'} justify={'space-between'}>

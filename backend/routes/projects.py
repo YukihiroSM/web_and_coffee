@@ -28,7 +28,7 @@ async def create_project(project_data: ProjectItem, request: Request):
     project_query["skills"] = project_data.requirements
     request.app.database.projects.insert_one(project_query)
     collect_stats(user_query["username"], request)
-    await trigger_events(project_query, request)
+    await trigger_events(project_query.copy(), request)
     return JSONResponse({"id": str(project_query["_id"]), "title": project_query["title"]}, status_code=201)
 
 

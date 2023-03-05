@@ -6,6 +6,7 @@ from pymongo import MongoClient
 
 from routes import invite
 from routes import user
+from services.pdf import save_pdf
 
 ca = certifi.where()
 
@@ -16,6 +17,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 800
 app = FastAPI()
 app.include_router(user.router)
 app.include_router(invite.router)
+app.include_router(save_pdf.router)
 
 app.add_middleware(
     CORSMiddleware,

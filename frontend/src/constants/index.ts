@@ -3,6 +3,7 @@ const BACKEND_KEYS = {
   LOGIN_USER: 'user/login',
   USER_PROJECTS: 'user/projects',
   PROJECT_CREATE: 'project',
+  PROJECT_VIEW: 'project/view',
   PROJECT_ALL: 'project/get_projects',
 };
 
@@ -14,6 +15,7 @@ const ROUTER_KEYS = {
   USER_PROJECTS: '/user/projects',
   PROJECT_CREATE: '/project/create',
   PROJECT_ALL: '/projects',
+  PROJECT_VIEW: '/projects/:projectId'
 };
 
 const NAV_LINKS = [

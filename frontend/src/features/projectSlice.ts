@@ -1,5 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { createProject, getAllProjects } from '../api/project';
+import {
+  createProject,
+  deleteSingleProject,
+  getAllProjects,
+  getSingleProject,
+} from '../api/project';
 import { BACKEND_KEYS } from '../constants';
 import { CreateProject, ProjectState } from '../types';
 
@@ -21,7 +26,30 @@ export const getAllProjectsThunk = createAsyncThunk(
   async (params: URLSearchParams, { rejectWithValue }) => {
     try {
       const response = await getAllProjects(params);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
+export const getSingleProjectThunk = createAsyncThunk(
+  BACKEND_KEYS.PROJECT_VIEW,
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const response = await getSingleProject(id);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const deleteSingleProjectThunk = createAsyncThunk(
+  BACKEND_KEYS.PROJECT_DELETE,
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const response = await deleteSingleProject(id);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -33,6 +61,7 @@ const projectSlice = createSlice({
   name: 'project',
   initialState: {
     projects: { data: [], metadata: { total: 0 } },
+    project: null,
     success: false,
     loading: false,
     error: null,
@@ -48,9 +77,22 @@ const projectSlice = createSlice({
         state.loading = false;
         state.success = true;
         state.error = null;
-        state.projects = action.payload;
       })
       .addCase(createProjectThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.success = false;
+        state.error = action.payload as string;
+      })
+      .addCase(deleteSingleProjectThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteSingleProjectThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+      })
+      .addCase(deleteSingleProjectThunk.rejected, (state, action) => {
         state.loading = false;
         state.success = false;
         state.error = action.payload as string;
@@ -61,13 +103,24 @@ const projectSlice = createSlice({
       })
       .addCase(getAllProjectsThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.success = true;
         state.error = null;
         state.projects = action.payload;
       })
       .addCase(getAllProjectsThunk.rejected, (state, action) => {
         state.loading = false;
-        state.success = false;
+        state.error = action.payload as string;
+      })
+      .addCase(getSingleProjectThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getSingleProjectThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.project = action.payload;
+      })
+      .addCase(getSingleProjectThunk.rejected, (state, action) => {
+        state.loading = false;
         state.error = action.payload as string;
       });
   },

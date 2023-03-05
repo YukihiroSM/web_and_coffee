@@ -2,7 +2,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/store';
 import {
   createProjectThunk,
+  deleteSingleProjectThunk,
   getAllProjectsThunk,
+  getSingleProjectThunk,
 } from '../features/projectSlice';
 import { CreateProject } from '../types';
 import { AppDispatch } from '../types';
@@ -22,6 +24,14 @@ export const useProject = () => {
     dispatch(getAllProjectsThunk(params));
   };
 
+  const handleGetSingleProject = (id: string) => {
+    dispatch(getSingleProjectThunk(id));
+  };
+
+  const handleDeleteSingleProject = (id: string) => {
+    dispatch(deleteSingleProjectThunk(id));
+  };
+
   return {
     projects,
     success,
@@ -29,5 +39,7 @@ export const useProject = () => {
     error,
     handleCreateProject,
     handleGetAllProjects,
+    handleGetSingleProject,
+    handleDeleteSingleProject,
   };
 };

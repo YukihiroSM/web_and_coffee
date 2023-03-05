@@ -19,6 +19,7 @@ export interface State {
 
 export interface ProjectState extends State {
   projects: { data: Project[]; metadata: { total: number } };
+  project: Project | null;
 }
 
 export interface UserProjectsState extends State {

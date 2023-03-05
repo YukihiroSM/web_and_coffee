@@ -23,29 +23,23 @@ class ProjectService extends HttpService {
     );
   }
 
-  getProjectById(params: string) {
-      return this.get(
-          {
-              url: `${BACKEND_KEYS.PROJECT_VIEW}`
-          },
-          false
-      );
+  getProjectById(id: string) {
+    return this.get(
+      {
+        url: `project/${id}`,
+      },
+      true
+    );
   }
 
-  // getMealsByFilter(params: URLSearchParams) {
-  //   return this.get(
-  //     {
-  //       url: `${BACKEND_KEYS.MEALS_BY_FILTER}?${params}`,
-  //     },
-  //     false
-  //   );
-  // }
-  // getRandomMeals() {
-  //   return this.get({ url: BACKEND_KEYS.RANDOM_MEALS }, false);
-  // }
-  // getSingleMeal(id: string) {
-  //   return this.get({ url: `${BACKEND_KEYS.SINGLE_MEAL}${id}` }, false);
-  // }
+  deleteProjectById(id: string) {
+    return this.delete(
+      {
+        url: `project/${id}/delete`,
+      },
+      true
+    );
+  }
 }
 
 export const projectService = new ProjectService();

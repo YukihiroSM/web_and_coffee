@@ -56,7 +56,7 @@ class FeedbackItem(BaseModel):
 
 
 class ProjectItem(BaseModel):
-    admin: str
+    admin: Union[str, None]
     title: str
     requirements: List[str]
     feedback: Union[List[FeedbackItem], None]

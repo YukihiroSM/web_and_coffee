@@ -28,6 +28,7 @@ class EducationItem(BaseModel):
 
 
 class ResumeItem(BaseModel):
+    username: Union[str, None]
     about: str
     skills: List[str]
     experience: List[ExperienceItem]

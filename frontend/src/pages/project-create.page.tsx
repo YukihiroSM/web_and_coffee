@@ -36,7 +36,7 @@ export const UserCreateProjectPage = () => {
         success: 'Project created!',
       });
       setTimeout(() => {
-        window.location.href = ROUTER_KEYS.USER_PROJECTS;
+        window.location.href = ROUTER_KEYS.USER_PROJECTS + '?page=0&perPage=10';
       }, 250);
     }
     if (error) {

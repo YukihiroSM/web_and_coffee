@@ -105,7 +105,7 @@ async def show_projects(request: Request,
             "description": d["description"],
             "how_to_apply": d["how_to_apply"],
             "skills": d["skills"],
-            "id": d["_id"]
+            "id": str(d["_id"])
         })
 
     resp = {

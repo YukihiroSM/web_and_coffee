@@ -3,6 +3,7 @@
 .mypy_cache
 .vscode
 **/__pycache__
+**/.env
 .pytest_cache
 htmlcov
 dist

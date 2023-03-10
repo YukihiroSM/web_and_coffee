@@ -27,6 +27,7 @@ export const getAllProjectsThunk = createAsyncThunk(
       const response = await getAllProjects(params);
       return response;
     } catch (error: any) {
+      console.log(error);
       return rejectWithValue(error.response.data);
     }
   }

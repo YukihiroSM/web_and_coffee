@@ -13,8 +13,7 @@ export const createProjectThunk = createAsyncThunk(
   async (project: CreateProject, { rejectWithValue }) => {
     try {
       const response = await createProject(project);
-      console.log(response);
-      return response.data;
+      return response;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
@@ -26,7 +25,7 @@ export const getAllProjectsThunk = createAsyncThunk(
   async (params: URLSearchParams, { rejectWithValue }) => {
     try {
       const response = await getAllProjects(params);
-      return response.data;
+      return response;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
@@ -38,7 +37,7 @@ export const getSingleProjectThunk = createAsyncThunk(
   async (id: string, { rejectWithValue }) => {
     try {
       const response = await getSingleProject(id);
-      return response.data;
+      return response;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
@@ -50,7 +49,7 @@ export const deleteSingleProjectThunk = createAsyncThunk(
   async (id: string, { rejectWithValue }) => {
     try {
       const response = await deleteSingleProject(id);
-      return response.data;
+      return response;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }

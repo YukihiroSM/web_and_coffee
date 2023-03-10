@@ -105,7 +105,7 @@ export const Header = () => {
                     href={
                       link.label === 'All Projects'
                         ? ROUTER_KEYS.PROJECT_ALL + '?page=0&perPage=10'
-                        : ROUTER_KEYS.PROJECT_CREATE
+                        : ROUTER_KEYS.PROJECT_CREATE + '?page=0&perPage=10'
                     }
                     p={2}
                     fontSize={{ sm: 'sm', md: huge ? 'md' : 'sm' }}
@@ -354,7 +354,7 @@ const ModalLogOut = ({ isOpen, onClose, setLocalStorageUser }: any) => {
                 }}
                 as={Link}
                 href={ROUTER_KEYS.USER_LOGIN}
-                onClick={() => setLocalStorageUser({ token: undefined })}
+                onClick={() => setLocalStorageUser(undefined)}
               >
                 Log out
               </Button>

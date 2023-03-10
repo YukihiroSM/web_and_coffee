@@ -28,7 +28,7 @@ class ProjectService extends HttpService {
       {
         url: `project/${id}`,
       },
-      true
+      false
     );
   }
 

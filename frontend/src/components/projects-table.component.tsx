@@ -13,11 +13,12 @@ import {
   Text,
 } from '@chakra-ui/react';
 
-import { ProjectsResponse } from '../types';
 import { BiSort } from 'react-icons/bi';
+import { Project } from '../types';
 
 type Props = {
-  projects: ProjectsResponse;
+  projects: Project[];
+  total: number;
   page: number;
   perPage: number;
   setPerPage: any;
@@ -32,6 +33,7 @@ export const ProjectsTableComponent = ({
   setPage,
   setPerPage,
   setFilter,
+  total,
 }: Props) => {
   return (
     <Container maxWidth={'none'} m={0} p={0} px={{ sm: 5, md: 20 }} mt={8}>
@@ -61,28 +63,29 @@ export const ProjectsTableComponent = ({
           </Tr>
         </Thead>
         <Tbody>
-          {projects.data.map((project) => (
-            <Tr
-              key={project.id}
-              cursor='pointer'
-              onClick={() => {
-                window.location.href = `/projects/${project.id}`;
-              }}
-            >
-              <Td>{project.title}</Td>
-              <Td display={{ base: 'none', md: 'table-cell' }}>
-                {project.description}
-              </Td>
-              <Td>
-                {project.requirements.map((req) => (
-                  <Button key={req} variant='outline' size='sm' mr={2} mb={2}>
-                    {req}
-                  </Button>
-                ))}
-              </Td>
-              <Td>{project.rating}</Td>
-            </Tr>
-          ))}
+          {projects &&
+            projects.map((project) => (
+              <Tr
+                key={project.id}
+                cursor='pointer'
+                onClick={() => {
+                  window.location.href = `/project/${project.id}`;
+                }}
+              >
+                <Td>{project.title}</Td>
+                <Td display={{ base: 'none', md: 'table-cell' }}>
+                  {project.description}
+                </Td>
+                <Td>
+                  {project.requirements.map((req) => (
+                    <Button key={req} variant='outline' size='sm' mr={2} mb={2}>
+                      {req}
+                    </Button>
+                  ))}
+                </Td>
+                <Td>{project.rating}</Td>
+              </Tr>
+            ))}
         </Tbody>
       </Table>
       <Stack my={4} direction={'row'} w={'full'} justify={'space-between'}>
@@ -104,7 +107,7 @@ export const ProjectsTableComponent = ({
           <option value={20}>20 per page</option>
         </Select>
         <Button
-          isDisabled={(page + 1) * perPage > projects.metadata.total}
+          isDisabled={(page + 1) * perPage > total}
           onClick={() => setPage((prev: any) => (prev || 0) + 1)}
         >
           Next

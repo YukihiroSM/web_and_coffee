@@ -1,4 +1,4 @@
-import { UserResumePage } from '../components';
+import { UserResumePage } from "../pages/user-resume.page";
 
 const page = {
   element: UserResumePage,

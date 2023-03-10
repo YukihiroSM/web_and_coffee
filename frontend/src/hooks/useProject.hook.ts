@@ -15,6 +15,7 @@ export const useProject = () => {
   const loading = useSelector((state: RootState) => state.project.loading);
   const error = useSelector((state: RootState) => state.project.error);
   const projects = useSelector((state: RootState) => state.project.projects);
+  const project = useSelector((state: RootState) => state.project.project);
 
   const handleCreateProject = (project: CreateProject) => {
     dispatch(createProjectThunk(project));
@@ -33,7 +34,9 @@ export const useProject = () => {
   };
 
   return {
-    projects,
+    projects: projects.data,
+    total: projects.metadata.total,
+    project,
     success,
     loading,
     error,

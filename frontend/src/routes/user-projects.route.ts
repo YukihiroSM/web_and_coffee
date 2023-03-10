@@ -1,4 +1,4 @@
-import { UserProjectsPage } from '../components';
+import { UserProjectsPage } from '../pages/user-projects.page';
 
 const page = {
   element: UserProjectsPage,

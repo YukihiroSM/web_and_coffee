@@ -1,30 +1,28 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useRef } from 'react';
 
-import { Swiper, SwiperSlide } from 'swiper/react';
-
-import { Autoplay, Pagination } from 'swiper';
-
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination } from 'swiper';
 
 import {
-  Divider,
   Flex,
   Image,
   Text,
   Heading,
-  Button,
   Link,
   Box,
   Container,
   IconButton,
   Stack,
+  Divider,
+  Button,
 } from '@chakra-ui/react';
 import { FaUser, FaComments } from 'react-icons/fa';
 
-import { EMPLOYEES, LANDING, ROUTER_KEYS } from '../constants';
+import { LANDING, ROUTER_KEYS, EMPLOYEES } from '../constants';
 
 export const LandingPage = () => {
   const scrollToSection = useRef<HTMLDivElement>(
@@ -41,7 +39,7 @@ export const LandingPage = () => {
 
 const SliderComponent = ({ scrollToSection }: any) => {
   return (
-    <section style={{ position: 'relative' }}>
+    <Container maxW={'none'} position={'relative'} m={0} p={0}>
       <ScrollArrowHintComponent scrollToSection={scrollToSection} />
       <Swiper
         id='main-slider-container'
@@ -97,7 +95,7 @@ const SliderComponent = ({ scrollToSection }: any) => {
           </SwiperSlide>
         ))}
       </Swiper>
-    </section>
+    </Container>
   );
 };
 
@@ -212,5 +210,3 @@ const AboutUs = () => {
     </Container>
   );
 };
-
-export default AboutUs;

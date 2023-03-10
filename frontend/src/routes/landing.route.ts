@@ -1,4 +1,4 @@
-import {LandingPage} from "../components/landing.page";
+import { LandingPage } from '../pages/landing.page';
 
 const page = {
   element: LandingPage,

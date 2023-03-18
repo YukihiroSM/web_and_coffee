@@ -11,8 +11,7 @@ export const NotificationComponent = ({ notification }: Props) => {
   const [statusDefault] = useState<any>({
     info: {
       title: 'Nothing found',
-      description:
-        'Chosen preferences do not match any of the existing recipes.',
+      description: notification?.error,
     },
     error: {
       title: 'Something went wrong...',

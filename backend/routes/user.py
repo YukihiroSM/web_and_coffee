@@ -127,9 +127,12 @@ async def user_projects(request: Request, page: int = 0, perPage: int = 12):
             if d['admin'] == decoded_jwt['username']:
                 d.pop("_id")
                 projects.append(d)
+        total = len(projects)
         projects = projects[page * perPage: (page + 1) * perPage]
-        resp = {"projects": projects,
-                "username": decoded_jwt['username']}
+        resp = {
+            "projects": projects,
+            "metadata": {"total": total}
+        }
         return JSONResponse(jsonable_encoder(resp), status_code=200)
     else:
         return JSONResponse({"message": "User not authorised!"}, status_code=401)

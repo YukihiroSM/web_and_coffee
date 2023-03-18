@@ -18,9 +18,9 @@ export interface ExperienceItem {
 
 export interface CreateResume {
   username: string;
-  about: string;
-  skills: string[];
-  contact: string;
+  about?: string;
+  skills?: string[];
+  contact?: string;
   experience?: ExperienceItem[];
   education?: EducationItem[];
 }

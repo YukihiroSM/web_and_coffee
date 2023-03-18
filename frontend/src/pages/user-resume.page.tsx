@@ -23,7 +23,7 @@ import { Formik, FieldArray, Field, FieldProps } from 'formik';
 import ReactSelect from 'react-select';
 import { useUser } from '../hooks';
 import { REQUIREMENTS_OPTIONS } from '../constants';
-import { ErrorPage, Loader, NotificationComponent } from '../components';
+import { Loader, NotificationComponent } from '../components';
 import { CreateResume } from '../types';
 
 const validationSchema = Yup.object({
@@ -55,8 +55,8 @@ interface EducationItemProps {
 }
 
 interface Props {
-  handleGetUserResume: any;
   handleCreateUserResume: any;
+  resume: CreateResume | null;
 }
 
 export const UserResumePage = () => {
@@ -66,8 +66,14 @@ export const UserResumePage = () => {
     loading,
     error,
     success,
+    resume,
   } = useUser();
   const [notification, setNotification] = useState<any>(undefined);
+
+  useEffect(() => {
+    handleGetUserResume();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (success) {
@@ -75,9 +81,6 @@ export const UserResumePage = () => {
         status: 'success',
         success: 'Resume added!',
       });
-      setTimeout(() => {
-        window.location.href = '/';
-      }, 2500);
     }
     if (error) {
       setNotification({
@@ -91,11 +94,9 @@ export const UserResumePage = () => {
     <>
       {notification && <NotificationComponent notification={notification} />}
       {loading && <Loader />}
-      {error ? (
-        <ErrorPage />
-      ) : (
+      {resume && (
         <ResumeFormComponent
-          handleGetUserResume={handleGetUserResume}
+          resume={resume}
           handleCreateUserResume={handleCreateUserResume}
         />
       )}
@@ -244,30 +245,21 @@ const EducationItem = ({ index, onDelete }: EducationItemProps) => {
   );
 };
 
-const ResumeFormComponent = ({
-  handleGetUserResume,
-  handleCreateUserResume,
-}: Props) => {
-  const [initialValue, setInitialValues] = useState<CreateResume>({
-    username: '',
-    about: '',
-    skills: [],
-    contact: '',
-    experience: [],
-    education: [],
-  });
-
-  useEffect(() => {
-    const newValues = handleGetUserResume();
-    if (newValues) setInitialValues(newValues);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+const ResumeFormComponent = ({ handleCreateUserResume, resume }: Props) => {
   return (
     <Box w={'full'} px={20} py={10}>
       <Heading mb='4'>My Resume</Heading>
       <Formik
-        initialValues={initialValue}
+        initialValues={
+          resume || {
+            username: '',
+            about: '',
+            skills: [],
+            contact: '',
+            experience: [],
+            education: [],
+          }
+        }
         validationSchema={validationSchema}
         onSubmit={handleCreateUserResume}
       >
@@ -285,10 +277,13 @@ const ResumeFormComponent = ({
             </FormControl>
             <Field name='skills'>
               {({ field }: any) => (
-                <FormControl isInvalid={!!errors.skills && touched.skills}>
+                <FormControl isInvalid={!!errors.skills && !!touched.skills}>
                   <FormLabel htmlFor='skills'>Skills</FormLabel>
                   <ReactSelect
                     isMulti
+                    defaultValue={REQUIREMENTS_OPTIONS.filter((skill) =>
+                      resume?.skills?.find((x) => x === skill.value)
+                    )}
                     options={REQUIREMENTS_OPTIONS}
                     onChange={(selected) =>
                       setFieldValue(
@@ -297,7 +292,9 @@ const ResumeFormComponent = ({
                       )
                     }
                   />
-                  <FormErrorMessage>{errors.skills}</FormErrorMessage>
+                  <FormErrorMessage>
+                    {errors.skills?.toString()}
+                  </FormErrorMessage>
                 </FormControl>
               )}
             </Field>

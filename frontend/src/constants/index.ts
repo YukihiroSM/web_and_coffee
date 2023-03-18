@@ -74,7 +74,6 @@ const REQUIREMENTS_OPTIONS = [
   { value: 'go', label: 'Golang' },
   { value: 'deep-learning', label: 'Deep Learning' },
   { value: 'cv', label: 'Computer Vision' },
-  { value: 'typescript', label: 'TypeScript' },
   { value: 'algorithms', label: 'Algorithms' },
   { value: 'design', label: 'Design' },
 ];

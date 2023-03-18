@@ -13,6 +13,7 @@ export const useUser = () => {
   const loading = useSelector((state: RootState) => state.user.loading);
   const error = useSelector((state: RootState) => state.user.error);
   const projects = useSelector((state: RootState) => state.user.projects);
+  const resume = useSelector((state: RootState) => state.user.resume);
 
   const handleGetUserProjects = (params: URLSearchParams) => {
     dispatch(getUserProjectsThunk(params));
@@ -29,6 +30,7 @@ export const useUser = () => {
   return {
     projects: projects.data,
     total: projects.metadata.total,
+    resume,
     success,
     loading,
     error,

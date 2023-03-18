@@ -72,7 +72,6 @@ const userSlice = createSlice({
       })
       .addCase(getUserResumeThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.success = true;
         state.error = null;
         state.resume = action.payload;
       })

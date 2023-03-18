@@ -19,7 +19,6 @@ export const useUser = () => {
   };
 
   const handleCreateUserResume = (resume: FormData) => {
-    console.log(resume);
     dispatch(createUserResumeThunk(resume));
   };
 
@@ -28,7 +27,8 @@ export const useUser = () => {
   };
 
   return {
-    projects,
+    projects: projects.data,
+    total: projects.metadata.total,
     success,
     loading,
     error,

@@ -1,4 +1,4 @@
-import { UserCreateProjectPage } from '../components';
+import { UserCreateProjectPage } from "../pages/project-create.page";
 
 const page = {
   element: UserCreateProjectPage,

@@ -1,7 +1,7 @@
-import { ProjectView } from '../components';
+import { ProjectViewPage } from '../pages/project-view.page';
 
 const page = {
-  element: ProjectView,
+  element: ProjectViewPage,
   path: 'PROJECT_VIEW',
   protectedRoute: true,
   key: 'view-project',

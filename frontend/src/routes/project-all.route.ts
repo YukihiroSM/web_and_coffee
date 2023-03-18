@@ -1,4 +1,4 @@
-import { ProjectAllPage } from '../components';
+import { ProjectAllPage } from '../pages/project-all.page';
 
 const page = {
   element: ProjectAllPage,

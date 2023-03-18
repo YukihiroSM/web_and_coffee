@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useProject } from '../hooks';
-import { ProjectsTableComponent } from './projects-table.component';
 
 import { useQueryParam, StringParam, NumberParam } from 'use-query-params';
-import { Loader } from './loader.component';
-import { NotificationComponent } from './notification.component';
+
+import {
+  NotificationComponent,
+  Loader,
+  ProjectsTableComponent,
+  ErrorPage,
+} from '../components';
 
 export const ProjectAllPage = () => {
   const [notification, setNotification] = useState<any>(undefined);
-  const { loading, error, projects, handleGetAllProjects } = useProject();
+  const { loading, error, projects, total, handleGetAllProjects } =
+    useProject();
   const [page, setPage] = useQueryParam('page', NumberParam);
   const [perPage, setPerPage] = useQueryParam('perPage', NumberParam);
   const [filter, setFilter] = useQueryParam('filter', StringParam);
@@ -34,14 +39,19 @@ export const ProjectAllPage = () => {
     <>
       {notification && <NotificationComponent notification={notification} />}
       {loading && <Loader />}
-      <ProjectsTableComponent
-        projects={projects}
-        page={page || 0}
-        perPage={perPage || 10}
-        setPage={setPage}
-        setPerPage={setPerPage}
-        setFilter={setFilter}
-      />
+      {error ? (
+        <ErrorPage />
+      ) : (
+        <ProjectsTableComponent
+          projects={projects}
+          total={total}
+          page={page || 0}
+          perPage={perPage || 10}
+          setPage={setPage}
+          setPerPage={setPerPage}
+          setFilter={setFilter}
+        />
+      )}
     </>
   );
 };

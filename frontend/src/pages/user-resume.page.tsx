@@ -23,13 +23,85 @@ import { Formik, FieldArray, Field, FieldProps } from 'formik';
 import ReactSelect from 'react-select';
 import { useUser } from '../hooks';
 import { REQUIREMENTS_OPTIONS } from '../constants';
-import { NotificationComponent } from './notification.component';
-import { Loader } from './loader.component';
+import { ErrorPage, Loader, NotificationComponent } from '../components';
 import { CreateResume } from '../types';
+
+const validationSchema = Yup.object({
+  username: Yup.string().email('Invalid email').required('Email is required'),
+  about: Yup.string().required('About is required'),
+  skills: Yup.array()
+    .of(Yup.string())
+    .min(1, 'At least one skill is required')
+    .required('Skills are required'),
+  contact: Yup.string().required('Contact is required'),
+});
 
 interface TextInputProps extends InputProps {
   label: string;
 }
+
+interface DatePickerFieldProps extends FieldProps {
+  label: string;
+}
+
+interface ExperienceItemProps {
+  index: number;
+  onDelete: (index: number) => void;
+}
+
+interface EducationItemProps {
+  index: number;
+  onDelete: (index: number) => void;
+}
+
+interface Props {
+  handleGetUserResume: any;
+  handleCreateUserResume: any;
+}
+
+export const UserResumePage = () => {
+  const {
+    handleCreateUserResume,
+    handleGetUserResume,
+    loading,
+    error,
+    success,
+  } = useUser();
+  const [notification, setNotification] = useState<any>(undefined);
+
+  useEffect(() => {
+    if (success) {
+      setNotification({
+        status: 'success',
+        success: 'Resume added!',
+      });
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 2500);
+    }
+    if (error) {
+      setNotification({
+        status: 'error',
+        error: error.message || undefined,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error, success]);
+  return (
+    <>
+      {notification && <NotificationComponent notification={notification} />}
+      {loading && <Loader />}
+      {error ? (
+        <ErrorPage />
+      ) : (
+        <ResumeFormComponent
+          handleGetUserResume={handleGetUserResume}
+          handleCreateUserResume={handleCreateUserResume}
+        />
+      )}
+    </>
+  );
+};
 
 const TextInput = ({ label, ...inputProps }: TextInputProps) => {
   return (
@@ -39,10 +111,6 @@ const TextInput = ({ label, ...inputProps }: TextInputProps) => {
     </div>
   );
 };
-
-interface DatePickerFieldProps extends FieldProps {
-  label: string;
-}
 
 const DatePickerField = ({
   field,
@@ -69,11 +137,6 @@ const DatePickerField = ({
     </div>
   );
 };
-
-interface ExperienceItemProps {
-  index: number;
-  onDelete: (index: number) => void;
-}
 
 const ExperienceItem = ({ index, onDelete }: ExperienceItemProps) => {
   const handleDelete = () => {
@@ -133,11 +196,6 @@ const ExperienceItem = ({ index, onDelete }: ExperienceItemProps) => {
   );
 };
 
-interface EducationItemProps {
-  index: number;
-  onDelete: (index: number) => void;
-}
-
 const EducationItem = ({ index, onDelete }: EducationItemProps) => {
   const handleDelete = () => {
     onDelete(index);
@@ -186,22 +244,7 @@ const EducationItem = ({ index, onDelete }: EducationItemProps) => {
   );
 };
 
-interface Props {
-  handleGetUserResume: any;
-  handleCreateUserResume: any;
-}
-
-const validationSchema = Yup.object({
-  username: Yup.string().email('Invalid email').required('Email is required'),
-  about: Yup.string().required('About is required'),
-  skills: Yup.array()
-    .of(Yup.string())
-    .min(1, 'At least one skill is required')
-    .required('Skills are required'),
-  contact: Yup.string().required('Contact is required'),
-});
-
-export const ResumeFormComponent = ({
+const ResumeFormComponent = ({
   handleGetUserResume,
   handleCreateUserResume,
 }: Props) => {
@@ -315,43 +358,5 @@ export const ResumeFormComponent = ({
         )}
       </Formik>
     </Box>
-  );
-};
-
-export const UserResumePage = () => {
-  const {
-    handleCreateUserResume,
-    handleGetUserResume,
-    loading,
-    error,
-    success,
-  } = useUser();
-  const [notification, setNotification] = useState<any>(undefined);
-
-  useEffect(() => {
-    if (success) {
-      setNotification({
-        status: 'success',
-        success: 'Resume added!',
-      });
-      window.location.href = '/';
-    }
-    if (error) {
-      setNotification({
-        status: 'error',
-        error: error.message || undefined,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error, success]);
-  return (
-    <>
-      {notification && <NotificationComponent notification={notification} />}
-      {loading && <Loader />}
-      <ResumeFormComponent
-        handleGetUserResume={handleGetUserResume}
-        handleCreateUserResume={handleCreateUserResume}
-      />
-    </>
   );
 };

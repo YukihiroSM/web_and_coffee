@@ -1,4 +1,4 @@
-import { UserFormPage } from '../components';
+import { UserFormPage } from '../pages/user-form.page';
 
 const page = {
   element: UserFormPage,

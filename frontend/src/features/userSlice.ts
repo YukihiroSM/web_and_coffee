@@ -8,7 +8,7 @@ export const getUserProjectsThunk = createAsyncThunk(
   async (params: URLSearchParams, { rejectWithValue }) => {
     try {
       const response = await getUserProjects(params);
-      return response.data;
+      return response;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
@@ -20,7 +20,7 @@ export const createUserResumeThunk = createAsyncThunk(
   async (resume: FormData, { rejectWithValue }) => {
     try {
       const response = await createUserResume(resume);
-      return response.data;
+      return response;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
@@ -32,7 +32,7 @@ export const getUserResumeThunk = createAsyncThunk(
   async (nothing: string, { rejectWithValue }) => {
     try {
       const response = await getUserResume();
-      return response.data;
+      return response;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }

@@ -130,7 +130,7 @@ async def user_projects(request: Request, page: int = 0, perPage: int = 12):
         total = len(projects)
         projects = projects[page * perPage: (page + 1) * perPage]
         resp = {
-            "projects": projects,
+            "data": projects,
             "metadata": {"total": total}
         }
         return JSONResponse(jsonable_encoder(resp), status_code=200)

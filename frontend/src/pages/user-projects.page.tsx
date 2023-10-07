@@ -25,7 +25,7 @@ export const UserProjectsPage = () => {
     if (error) {
       setNotification({
         status: 'error',
-        error: error.message || undefined,
+        error: error.message || undefined
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -35,7 +35,7 @@ export const UserProjectsPage = () => {
     <>
       {notification && <NotificationComponent notification={notification} />}
       {loading && <Loader />}
-      {error ? (
+      {error && !loading ? (
         <ErrorPage />
       ) : (
         <ProjectsTableComponent

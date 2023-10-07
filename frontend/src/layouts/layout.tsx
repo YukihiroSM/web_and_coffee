@@ -10,7 +10,7 @@ import {
   Link as ChakraLink,
   Image,
   Grid,
-  GridItem,
+  GridItem
 } from '@chakra-ui/react';
 
 import { ReactNode } from 'react';
@@ -36,7 +36,7 @@ const Layout: React.FunctionComponent<Props> = ({ children }: Props) => {
     >
       <Header />
       <Container
-        as='main'
+        as="main"
         display={'flex'}
         flexDirection={'column'}
         alignItems={'center'}
@@ -49,7 +49,7 @@ const Layout: React.FunctionComponent<Props> = ({ children }: Props) => {
       >
         {children}
       </Container>
-      <Footer />
+      {/* <Footer /> */}
     </Stack>
   );
 };
@@ -57,7 +57,7 @@ const Layout: React.FunctionComponent<Props> = ({ children }: Props) => {
 const SocialButton = ({
   children,
   label,
-  href,
+  href
 }: {
   children: ReactNode;
   label: string;
@@ -77,7 +77,7 @@ const SocialButton = ({
       justifyContent={'center'}
       transition={'all .5s ease'}
       _hover={{
-        bg: 'blackAlpha.200',
+        bg: 'blackAlpha.200'
       }}
     >
       <VisuallyHidden>{label}</VisuallyHidden>
@@ -99,10 +99,7 @@ const Footer = () => {
     <>
       <Box minHeight={'none'} as={'footer'} bg={'gray.50'} color={'gray.700'}>
         <Container as={Stack} maxW={'6xl'} py={10}>
-          <Grid
-            gap={5}
-            templateColumns={{ sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }}
-          >
+          <Grid gap={5} templateColumns={{ sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }}>
             <GridItem>
               <Stack spacing={{ sm: 4, md: 5 }}>
                 <Stack
@@ -110,7 +107,7 @@ const Footer = () => {
                   direction={'row'}
                   textStyle={{ sm: 'body2Semi', md: 'body1Semi' }}
                 >
-                  <Text>ProjectMe</Text>
+                  <Text>Project Space</Text>
                   <SocialButton
                     label={'GitHub'}
                     href={'https://github.com/YukihiroSM/web_and_coffee'}
@@ -121,14 +118,11 @@ const Footer = () => {
                 <Text fontSize={{ sm: 'xs', md: 'sm' }}>
                   © 2023 Code & Coffee Team. All rights reserved
                 </Text>
-                <Stack
-                  display={{ sm: 'block', md: 'none' }}
-                  align={'flex-start'}
-                >
+                <Stack display={{ sm: 'block', md: 'none' }} align={'flex-start'}>
                   <Text fontSize={{ sm: 'sm', md: 'md' }}>Fu*k russia</Text>
                   <Image
-                    src='https://media.giphy.com/media/0SPa3c91z2l1giDIMH/giphy.gif'
-                    alt='Ukraine'
+                    src="https://media.giphy.com/media/0SPa3c91z2l1giDIMH/giphy.gif"
+                    alt="Ukraine"
                   />
                 </Stack>
               </Stack>
@@ -166,8 +160,8 @@ const Footer = () => {
               <Stack align={'flex-start'}>
                 <ListHeader>Fu*k russia</ListHeader>
                 <Image
-                  src='https://media.giphy.com/media/0SPa3c91z2l1giDIMH/giphy.gif'
-                  alt='Ukraine'
+                  src="https://media.giphy.com/media/0SPa3c91z2l1giDIMH/giphy.gif"
+                  alt="Ukraine"
                 />
               </Stack>
             </GridItem>

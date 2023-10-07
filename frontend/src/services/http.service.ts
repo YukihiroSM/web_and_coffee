@@ -14,7 +14,7 @@ export default class HttpService {
   apiVersion: string;
 
   constructor(
-    baseUrl = process.env.REACT_APP_SERVER_URL,
+    baseUrl = 'https://fastapi-example-rmb5.onrender.com',
     fetchingService = axios,
     apiVersion = 'api'
   ) {
@@ -30,15 +30,11 @@ export default class HttpService {
   private populateTokenToHeaderConfig() {
     const token = JSON.parse(localStorage.getItem('project-me-user') || '{}');
     return {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`
     };
   }
 
-  private extractUrlAndDataFromConfig({
-    data,
-    url,
-    ...configWithoutDataAndUrl
-  }: IConfig) {
+  private extractUrlAndDataFromConfig({ data, url, ...configWithoutDataAndUrl }: IConfig) {
     return configWithoutDataAndUrl;
   }
 
@@ -46,7 +42,7 @@ export default class HttpService {
     if (withAuth) {
       config.headers = {
         ...config.headers,
-        ...this.populateTokenToHeaderConfig(),
+        ...this.populateTokenToHeaderConfig()
       };
     }
     return this.fetchingService.get(
@@ -59,7 +55,7 @@ export default class HttpService {
     if (withAuth) {
       config.headers = {
         ...config.headers,
-        ...this.populateTokenToHeaderConfig(),
+        ...this.populateTokenToHeaderConfig()
       };
     }
     return this.fetchingService.put(
@@ -73,7 +69,7 @@ export default class HttpService {
     if (withAuth) {
       config.headers = {
         ...config.headers,
-        ...this.populateTokenToHeaderConfig(),
+        ...this.populateTokenToHeaderConfig()
       };
     }
     return this.fetchingService.post(
@@ -87,7 +83,7 @@ export default class HttpService {
     if (withAuth) {
       config.headers = {
         ...config.headers,
-        ...this.populateTokenToHeaderConfig(),
+        ...this.populateTokenToHeaderConfig()
       };
     }
     return this.fetchingService.delete(

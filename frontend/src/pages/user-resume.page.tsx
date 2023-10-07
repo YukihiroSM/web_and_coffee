@@ -10,7 +10,7 @@ import {
   Text,
   Textarea,
   FormControl,
-  FormErrorMessage,
+  FormErrorMessage
 } from '@chakra-ui/react';
 
 import DatePicker from 'react-datepicker';
@@ -33,7 +33,7 @@ const validationSchema = Yup.object({
     .of(Yup.string())
     .min(1, 'At least one skill is required')
     .required('Skills are required'),
-  contact: Yup.string().required('Contact is required'),
+  contact: Yup.string().required('Contact is required')
 });
 
 interface TextInputProps extends InputProps {
@@ -60,14 +60,8 @@ interface Props {
 }
 
 export const UserResumePage = () => {
-  const {
-    handleCreateUserResume,
-    handleGetUserResume,
-    loading,
-    error,
-    success,
-    resume,
-  } = useUser();
+  const { handleCreateUserResume, handleGetUserResume, loading, error, success, resume } =
+    useUser();
   const [notification, setNotification] = useState<any>(undefined);
 
   useEffect(() => {
@@ -79,13 +73,13 @@ export const UserResumePage = () => {
     if (success) {
       setNotification({
         status: 'success',
-        success: 'Resume added!',
+        success: 'Resume added!'
       });
     }
     if (error) {
       setNotification({
         status: 'error',
-        error: error.message || undefined,
+        error: error.message || undefined
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -95,10 +89,7 @@ export const UserResumePage = () => {
       {notification && <NotificationComponent notification={notification} />}
       {loading && <Loader />}
       {resume && (
-        <ResumeFormComponent
-          resume={resume}
-          handleCreateUserResume={handleCreateUserResume}
-        />
+        <ResumeFormComponent resume={resume} handleCreateUserResume={handleCreateUserResume} />
       )}
     </>
   );
@@ -113,12 +104,7 @@ const TextInput = ({ label, ...inputProps }: TextInputProps) => {
   );
 };
 
-const DatePickerField = ({
-  field,
-  form,
-  label,
-  meta,
-}: DatePickerFieldProps) => {
+const DatePickerField = ({ field, form, label, meta }: DatePickerFieldProps) => {
   const handleChange = (date: Date) => {
     form.setFieldValue(field.name, date);
   };
@@ -129,11 +115,11 @@ const DatePickerField = ({
       <DatePicker
         selected={field.value}
         onChange={handleChange}
-        dateFormat='dd/MM/yyyy'
+        dateFormat="dd/MM/yyyy"
         showYearDropdown
         showMonthDropdown
-        dropdownMode='select'
-        className='custom-datepicker'
+        dropdownMode="select"
+        className="custom-datepicker"
       />
     </div>
   );
@@ -145,52 +131,32 @@ const ExperienceItem = ({ index, onDelete }: ExperienceItemProps) => {
   };
 
   return (
-    <Box borderWidth='1px' borderRadius='lg' p='4' mb={4}>
-      <Text fontWeight='bold'>Experience Item {index + 1}</Text>
-      <Field name={`experience[${index}].company`} label='Company'>
-        {({ field, form }: FieldProps) => (
-          <TextInput label='Company' {...field} />
-        )}
+    <Box borderWidth="1px" borderRadius="lg" p="4" mb={4}>
+      <Text fontWeight="bold">Experience Item {index + 1}</Text>
+      <Field name={`experience[${index}].company`} label="Company">
+        {({ field, form }: FieldProps) => <TextInput label="Company" {...field} />}
       </Field>
-      <Field name={`experience[${index}].position`} label='Position'>
-        {({ field, form }: FieldProps) => (
-          <TextInput label='Position' {...field} />
-        )}
+      <Field name={`experience[${index}].position`} label="Position">
+        {({ field, form }: FieldProps) => <TextInput label="Position" {...field} />}
       </Field>
-      <Field name={`experience[${index}].start`} label='Start Date'>
+      <Field name={`experience[${index}].start`} label="Start Date">
         {({ field, form, meta }: FieldProps) => (
-          <DatePickerField
-            label='Start Date'
-            field={field}
-            form={form}
-            meta={meta}
-          />
+          <DatePickerField label="Start Date" field={field} form={form} meta={meta} />
         )}
       </Field>
-      <Field name={`experience[${index}].end`} label='End Date'>
+      <Field name={`experience[${index}].end`} label="End Date">
         {({ field, form, meta }: FieldProps) => (
-          <DatePickerField
-            meta={meta}
-            label='End Date'
-            field={field}
-            form={form}
-          />
+          <DatePickerField meta={meta} label="End Date" field={field} form={form} />
         )}
       </Field>
-      <Field name={`experience[${index}].employment`} label='Employment Type'>
-        {({ field, form }: FieldProps) => (
-          <TextInput label='Employment Type' {...field} />
-        )}
+      <Field name={`experience[${index}].employment`} label="Employment Type">
+        {({ field, form }: FieldProps) => <TextInput label="Employment Type" {...field} />}
       </Field>
-      <Field name={`experience[${index}].place`} label='Place'>
-        {({ field, form }: FieldProps) => (
-          <TextInput label='Place' {...field} />
-        )}
+      <Field name={`experience[${index}].place`} label="Place">
+        {({ field, form }: FieldProps) => <TextInput label="Place" {...field} />}
       </Field>
-      <Field name={`experience[${index}].description`} label='Description'>
-        {({ field, form }: FieldProps) => (
-          <TextInput label='Description' {...field} />
-        )}
+      <Field name={`experience[${index}].description`} label="Description">
+        {({ field, form }: FieldProps) => <TextInput label="Description" {...field} />}
       </Field>
       <button onClick={handleDelete}>Delete Experience Item</button>
     </Box>
@@ -203,41 +169,25 @@ const EducationItem = ({ index, onDelete }: EducationItemProps) => {
   };
 
   return (
-    <Box borderWidth='1px' borderRadius='lg' p='4' mb={4}>
-      <Text fontWeight='bold'>Education Item {index + 1}</Text>
-      <Field name={`education[${index}].title`} label='Title'>
-        {({ field, form }: FieldProps) => (
-          <TextInput label='Title' {...field} />
-        )}
+    <Box borderWidth="1px" borderRadius="lg" p="4" mb={4}>
+      <Text fontWeight="bold">Education Item {index + 1}</Text>
+      <Field name={`education[${index}].title`} label="Title">
+        {({ field, form }: FieldProps) => <TextInput label="Title" {...field} />}
       </Field>
-      <Field name={`education[${index}].degree`} label='Degree'>
-        {({ field, form }: FieldProps) => (
-          <TextInput label='Degree' {...field} />
-        )}
+      <Field name={`education[${index}].degree`} label="Degree">
+        {({ field, form }: FieldProps) => <TextInput label="Degree" {...field} />}
       </Field>
-      <Field name={`education[${index}].place`} label='Place'>
-        {({ field, form }: FieldProps) => (
-          <TextInput label='Place' {...field} />
-        )}
+      <Field name={`education[${index}].place`} label="Place">
+        {({ field, form }: FieldProps) => <TextInput label="Place" {...field} />}
       </Field>
-      <Field name={`education[${index}].start`} label='Start Date'>
+      <Field name={`education[${index}].start`} label="Start Date">
         {({ field, form, meta }: FieldProps) => (
-          <DatePickerField
-            field={field}
-            form={form}
-            meta={meta}
-            label='Start Date'
-          />
+          <DatePickerField field={field} form={form} meta={meta} label="Start Date" />
         )}
       </Field>
-      <Field name={`education[${index}].end`} label='End Date'>
+      <Field name={`education[${index}].end`} label="End Date">
         {({ field, form, meta }: FieldProps) => (
-          <DatePickerField
-            label='End Date'
-            field={field}
-            form={form}
-            meta={meta}
-          />
+          <DatePickerField label="End Date" field={field} form={form} meta={meta} />
         )}
       </Field>
       <button onClick={handleDelete}>Delete Education Item</button>
@@ -248,7 +198,7 @@ const EducationItem = ({ index, onDelete }: EducationItemProps) => {
 const ResumeFormComponent = ({ handleCreateUserResume, resume }: Props) => {
   return (
     <Box w={'full'} px={20} py={10}>
-      <Heading mb='4'>My Resume</Heading>
+      <Heading mb="4">My Resume</Heading>
       <Formik
         initialValues={
           resume || {
@@ -257,7 +207,7 @@ const ResumeFormComponent = ({ handleCreateUserResume, resume }: Props) => {
             skills: [],
             contact: '',
             experience: [],
-            education: [],
+            education: []
           }
         }
         validationSchema={validationSchema}
@@ -266,19 +216,19 @@ const ResumeFormComponent = ({ handleCreateUserResume, resume }: Props) => {
         {({ values, handleSubmit, setFieldValue, errors, touched }) => (
           <form onSubmit={handleSubmit}>
             <FormControl isInvalid={!!errors.username && touched.username}>
-              <FormLabel htmlFor='username'>Email</FormLabel>
-              <Field as={Input} id='username' name='username' type='text' />
+              <FormLabel htmlFor="username">Email</FormLabel>
+              <Field as={Input} id="username" name="username" type="text" />
               <FormErrorMessage>{errors.username}</FormErrorMessage>
             </FormControl>
             <FormControl isInvalid={!!errors.about && touched.about}>
-              <FormLabel htmlFor='about'>About</FormLabel>
-              <Field as={Textarea} type='text' id='about' name='about' />
+              <FormLabel htmlFor="about">About</FormLabel>
+              <Field as={Textarea} type="text" id="about" name="about" />
               <FormErrorMessage>{errors.about}</FormErrorMessage>
             </FormControl>
-            <Field name='skills'>
+            <Field name="skills">
               {({ field }: any) => (
                 <FormControl isInvalid={!!errors.skills && !!touched.skills}>
-                  <FormLabel htmlFor='skills'>Skills</FormLabel>
+                  <FormLabel htmlFor="skills">Skills</FormLabel>
                   <ReactSelect
                     isMulti
                     defaultValue={REQUIREMENTS_OPTIONS.filter((skill) =>
@@ -292,21 +242,19 @@ const ResumeFormComponent = ({ handleCreateUserResume, resume }: Props) => {
                       )
                     }
                   />
-                  <FormErrorMessage>
-                    {errors.skills?.toString()}
-                  </FormErrorMessage>
+                  <FormErrorMessage>{errors.skills?.toString()}</FormErrorMessage>
                 </FormControl>
               )}
             </Field>
             <FormControl isInvalid={!!errors.contact && touched.contact}>
-              <FormLabel htmlFor='contact'>Contact</FormLabel>
-              <Field as={Textarea} type='text' id='contact' name='contact' />
+              <FormLabel htmlFor="contact">Contact</FormLabel>
+              <Field as={Textarea} type="text" id="contact" name="contact" />
               <FormErrorMessage>{errors.contact}</FormErrorMessage>
             </FormControl>
-            <FieldArray name='experience'>
+            <FieldArray name="experience">
               {({ push, remove }) => (
-                <Box mb='4'>
-                  <Text mb='2'>Experience</Text>
+                <Box mb="4">
+                  <Text mb="2">Experience</Text>
                   {values?.experience?.map((_, index) => (
                     <ExperienceItem
                       key={index}
@@ -314,16 +262,16 @@ const ResumeFormComponent = ({ handleCreateUserResume, resume }: Props) => {
                       onDelete={(index: number) => remove(index)}
                     />
                   ))}
-                  <Button type='button' onClick={() => push({})}>
+                  <Button type="button" onClick={() => push({})}>
                     Add Experience Item
                   </Button>
                 </Box>
               )}
             </FieldArray>
-            <FieldArray name='education'>
+            <FieldArray name="education">
               {({ push, remove }) => (
-                <Box mb='4'>
-                  <Text mb='2'>Education</Text>
+                <Box mb="4">
+                  <Text mb="2">Education</Text>
                   {values?.education?.map((_, index) => (
                     <EducationItem
                       key={index}
@@ -331,7 +279,7 @@ const ResumeFormComponent = ({ handleCreateUserResume, resume }: Props) => {
                       onDelete={(index: number) => remove(index)}
                     />
                   ))}
-                  <Button type='button' onClick={() => push({})}>
+                  <Button type="button" onClick={() => push({})}>
                     Add Education Item
                   </Button>
                 </Box>
@@ -345,7 +293,7 @@ const ResumeFormComponent = ({ handleCreateUserResume, resume }: Props) => {
               color={'white'}
               bg={'attention.dark'}
               _hover={{
-                bg: 'attention.light',
+                bg: 'attention.light'
               }}
               type={'submit'}
             >

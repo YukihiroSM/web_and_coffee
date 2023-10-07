@@ -22,7 +22,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Text,
+  Text
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { useLocation } from 'react-router-dom';
@@ -31,10 +31,7 @@ import { useLocalStorage } from '../hooks';
 import { NAV_LINKS, ROUTER_KEYS } from '../constants';
 
 export const Header = () => {
-  const [token, setLocalStorageUser] = useLocalStorage<string | null>(
-    'project-me-user',
-    null
-  );
+  const [token, setLocalStorageUser] = useLocalStorage<string | null>('project-me-user', null);
   const { pathname } = useLocation();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -60,15 +57,7 @@ export const Header = () => {
 
   return (
     <>
-      <Box
-        mt={0}
-        pt={0}
-        as='header'
-        position='fixed'
-        top={0}
-        w='100%'
-        zIndex={50}
-      >
+      <Box mt={0} pt={0} as="header" position="fixed" top={0} w="100%" zIndex={50}>
         <Flex
           minW={'none'}
           w={'full'}
@@ -88,14 +77,13 @@ export const Header = () => {
             display={{ md: 'none' }}
             backgroundColor={'black'}
             _hover={{
-              color: 'white',
+              color: 'white'
             }}
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
             {NAV_LINKS.map((link) => {
-              if (link.label !== 'All Projects' && !token)
-                return <div key={link.label}></div>;
+              if (link.label !== 'All Projects' && !token) return <div key={link.label}></div>;
               else
                 return (
                   <Button
@@ -113,11 +101,11 @@ export const Header = () => {
                     fontWeight={500}
                     color={'light'}
                     _active={{
-                      bg: 'dark',
+                      bg: 'dark'
                     }}
                     _hover={{
                       textDecoration: 'none',
-                      color: 'white',
+                      color: 'white'
                     }}
                   >
                     {link.label}
@@ -128,21 +116,17 @@ export const Header = () => {
           <Box
             textStyle={{
               sm: 'display2',
-              md: huge ? 'display1' : 'body1Semi',
+              md: huge ? 'display1' : 'body1Semi'
             }}
             transition={'all .5s ease'}
             alignItems={'center'}
           >
-            <Text as='a' href={'/'}>
-              ProjectMe
+            <Text as="a" href={'/'}>
+              Project Space
             </Text>
           </Box>
           <Box display={{ base: 'none', md: 'flex' }} alignItems={'center'}>
-            <User
-              huge={huge}
-              setLocalStorageUser={setLocalStorageUser}
-              token={token}
-            />
+            <User huge={huge} setLocalStorageUser={setLocalStorageUser} token={token} />
           </Box>
         </Flex>
 
@@ -179,11 +163,11 @@ export const Header = () => {
                           fontWeight={500}
                           color={'light'}
                           _active={{
-                            bg: 'dark',
+                            bg: 'dark'
                           }}
                           _hover={{
                             textDecoration: 'none',
-                            color: 'white',
+                            color: 'white'
                           }}
                         >
                           {link.label}
@@ -226,13 +210,7 @@ const User = ({ huge, token, setLocalStorageUser }: UserProps) => {
             setLocalStorageUser={setLocalStorageUser}
           />
           <Menu>
-            <MenuButton
-              as={Button}
-              rounded={'full'}
-              variant={'link'}
-              cursor={'pointer'}
-              minW={0}
-            >
+            <MenuButton as={Button} rounded={'full'} variant={'link'} cursor={'pointer'} minW={0}>
               <Avatar
                 src={'https://i.pravatar.cc/300'}
                 bg={'attention.dark'}
@@ -252,7 +230,7 @@ const User = ({ huge, token, setLocalStorageUser }: UserProps) => {
                 href={ROUTER_KEYS.USER_PROJECTS + '?page=0&perPage=10'}
                 _hover={{
                   textDecoration: 'none',
-                  color: 'attention.light',
+                  color: 'attention.light'
                 }}
                 fontWeight={400}
                 bg={'black'}
@@ -264,7 +242,7 @@ const User = ({ huge, token, setLocalStorageUser }: UserProps) => {
                 href={ROUTER_KEYS.USER_RESUME}
                 _hover={{
                   textDecoration: 'none',
-                  color: 'attention.light',
+                  color: 'attention.light'
                 }}
                 fontWeight={400}
                 bg={'black'}
@@ -275,7 +253,7 @@ const User = ({ huge, token, setLocalStorageUser }: UserProps) => {
               <MenuItem
                 _hover={{
                   textDecoration: 'none',
-                  color: 'attention.light',
+                  color: 'attention.light'
                 }}
                 bg={'black'}
                 fontWeight={600}
@@ -310,10 +288,10 @@ const User = ({ huge, token, setLocalStorageUser }: UserProps) => {
             fontWeight={600}
             color={'white'}
             bg={'attention.dark'}
-            as='a'
+            as="a"
             href={ROUTER_KEYS.USER_REGISTER}
             _hover={{
-              bg: 'attention.light',
+              bg: 'attention.light'
             }}
           >
             Sign Up
@@ -328,14 +306,9 @@ const ModalLogOut = ({ isOpen, onClose, setLocalStorageUser }: any) => {
   return (
     <>
       <Modal isCentered isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay
-          bg='blackAlpha.300'
-          backdropFilter='blur(10px) hue-rotate(90deg)'
-        />
+        <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px) hue-rotate(90deg)" />
         <ModalContent py={{ sm: 2, md: 4 }} bg={'black'} color={'white'}>
-          <ModalHeader fontSize={{ sm: '1.5rem', md: '2rem' }}>
-            Sure want to log out?
-          </ModalHeader>
+          <ModalHeader fontSize={{ sm: '1.5rem', md: '2rem' }}>Sure want to log out?</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Text fontSize={{ sm: 'sm', md: 'md' }}>
@@ -350,7 +323,7 @@ const ModalLogOut = ({ isOpen, onClose, setLocalStorageUser }: any) => {
                 _hover={{
                   color: 'orange',
                   bg: 'dark',
-                  textDecoration: 'none',
+                  textDecoration: 'none'
                 }}
                 as={Link}
                 href={ROUTER_KEYS.USER_LOGIN}
@@ -361,7 +334,7 @@ const ModalLogOut = ({ isOpen, onClose, setLocalStorageUser }: any) => {
               <Button
                 _hover={{
                   bg: 'attention.light',
-                  textDecoration: 'none',
+                  textDecoration: 'none'
                 }}
                 bg={'attention.dark'}
                 onClick={onClose}
